@@ -5,7 +5,7 @@ The HTML site is **generated** from the Markdown files in this folder. Edit thes
 ## Workflow
 
 1. Edit one or more `NN-slug.md` files (see `manifest.txt` for order).
-2. From `comp-xtal/comp-xtal/` run:
+2. From the handbook directory (`comp-xtal/` at the repo root—the parent of this `content/` folder) run:
    ```bash
    python3 -m venv .venv          # first time only
    .venv/bin/pip install -r requirements.txt
@@ -49,7 +49,7 @@ That will replace files under `content/` and `manifest.txt`. Use only when you i
 
 ## Figures from the PDF
 
-Screenshots are **not** included in `import-pdf` (text only). From the repo’s `comp-xtal/comp-xtal/` directory, with the PDF in `../material/comp-xtal_stable_handbook.pdf`:
+Screenshots are **not** included in `import-pdf` (text only). From the handbook directory (`comp-xtal/` at repo root), with the PDF in `../material/comp-xtal_stable_handbook.pdf`:
 
 ```bash
 .venv/bin/python build_handbook.py import-pdf-images

@@ -8,7 +8,7 @@ This folder is a **plain static site** generated from Markdown in [`content/`](c
 
 ## Local installation
 
-From this directory (`comp-xtal/comp-xtal/`):
+From the handbook directory (`comp-xtal/` inside this repository’s root—same folder as `build_handbook.py`):
 
 ```bash
 python3 -m venv .venv
@@ -76,14 +76,14 @@ Yes—you can host this on **GitHub Pages**.
 
 1. Push this repository to GitHub (if it is not already).
 2. In the repo: **Settings → Pages → Build and deployment → Source**: choose **GitHub Actions** (not “Deploy from a branch”).
-3. Ensure the workflow file [`.github/workflows/handbook-pages.yml`](../../.github/workflows/handbook-pages.yml) exists at the **repository root** (as in this layout).
+3. Ensure the workflow file [`.github/workflows/handbook-pages.yml`](../.github/workflows/handbook-pages.yml) exists at the **repository root** (as in this layout).
 4. Push to `main`; the “Deploy handbook to GitHub Pages” workflow builds the HTML and publishes it.
 
 Your site URL will look like:
 
 `https://<user-or-org>.github.io/<repository>/`
 
-**Repository layout note:** The workflow assumes the handbook project lives at `comp-xtal/comp-xtal/` inside the repo (matching this workspace). If you move the site to the repository root, edit the workflow paths and the `cp` step so they point at your `build_handbook.py` and copy `index.html`, `styles.css`, `search.js`, and optionally `images/` from the correct directory.
+**Repository layout note:** The workflow expects the handbook at **`comp-xtal/`** under the repository root (next to `.github/`). If you flatten or rename that folder, update [`.github/workflows/handbook-pages.yml`](../.github/workflows/handbook-pages.yml) accordingly.
 
 **First-time GitHub Pages:** After the first successful run, open **Settings → Pages** to confirm the published URL. If the workflow fails, check the Actions tab for logs (common issues: Pages not enabled, or workflow permissions).
 
