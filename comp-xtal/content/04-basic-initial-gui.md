@@ -3,72 +3,79 @@ id: basic-initial-gui
 title: Basic: Initial GUI configuration for an experiment
 ---
 
-0. Source the right cctbx environment 
-See Preparation step 3 (‘Source cctbx’) 
-1. Configure experiment settings 
-The overall configuration of the GUI for an experiment is specified in 
- /sdf/home/<username>/.cctbx.xfel/settings.phil 
-Content in this file will pre-populate some entries in the GUI, and conversely, if you fill in or edit the corresponding textboxes in the GUI, it will edit the settings.phil file.  
-    If you have never run cctbx.xfel GUI before, you won’t have this folder or this file.
+### 0. Source the right cctbx environment
 
-If you are switching between experiments, remember that GUI will overwrite 
-~/.cctbx.xfel/settings.phil, so it is good practice to always save a copy of the existing settings.phil before running. 
-Usually you would copy a previous settings.phil file as a template to start with (and make the .cctbx.xfel folder if it doesn’t exist yet): 
-cp /sdf/home/<username>/.cctbx.xfel/settings.phil <experiment_file> 
-e.g. for Summers: /sdf/home/m/mai12345/.cctbx.xfel/mfx100904224.phil 
-The content of this file looks like this:
+See **Preparation** → **Source cctbx** (SSH section above).
 
-It is ok to start the GUI from scratch or from a partially filled settings.phil file. But if you did put down the “output_folder”, Make sure paths already exist, as the GUI will not create new folders and instead just crashes or freezes  with terminal output errors. 
-2. Start GUI 
-Run: cctbx.xfel in terminal. Launching cctbx can take a minute. 
-When you launch the GUI using this PHIL phil, you will see the following window and you can spot some of the corresponding entries such as “Experiment Tag” (experiment_tag), “Output” (output_folder), “Facility”(facility.name), and “Experiment” 
-(facility.lcls.experiment) from the setting.phil file.
+### 1. Configure experiment settings
 
-Fill fields if not already populated by the experiment settings.phil file:
+The overall GUI configuration for an experiment lives in:
 
-The output field in the text box above is: 
- /sdf/data/lcls/ds/mfx/mfx100904224/results/kmdalton/results
+`/sdf/home/<username>/.cctbx.xfel/settings.phil`
 
-Experiment Tag and Output Folder 
-Conventionally, the experiment tag and your process folder (relative path to the experiment folder) should match, but it looks like this is not strictly enforced. In this example, we have an experiment tag as “common”, but the processing folder (relative path) can be “pam” (used in the examples below) or “kmdalton” (in the screenshot above). 
-Unless you are the official processing person (in which case the output folder should be 
-“common” (relative path)), you are recommended to make a folder for yourself (e.g. named 
-“pam”). 
-The overall experiment folder is:
+That file pre-populates GUI fields, and edits in the GUI write back to `settings.phil`. If you have never run the cctbx.xfel GUI before, you may not have this folder or file yet.
 
-And the GUI expects your processing folder (absolute path) would be the following:
+If you switch experiments, the GUI can overwrite `~/.cctbx.xfel/settings.phil`, so save a copy before running. You can copy an existing file as a template (create `.cctbx.xfel` if needed):
 
-DB Credentials 
-Modify DB credentials as needed, this corresponds to the “db” section in the settings.phil file. Name and user are usually the experiment.
+```bash
+cp /sdf/home/<username>/.cctbx.xfel/settings.phil <experiment_file>
+```
 
-Password: lcls
+Example (Summers): `/sdf/home/m/mai12345/.cctbx.xfel/mfx100904224.phil`
 
-The buttons at the bottom of the DB window sometimes disappear (for example, when running cctbx.xfel via OnDemand). You can exit out of the window by using the return or escape key on your keyboard.
+The file content structure matches what the GUI shows (screenshots in **Figures** below).
 
-Options: 
-Leave them unselected.
+You may start from scratch or from a partial `settings.phil`. If you set **output_folder**, those paths must already exist—the GUI will not create them and may crash or freeze.
 
-Advanced Settings 
-Modify advanced settings as needed -- this corresponds to the “mp” section of the settings.phil file.  
-    Make sure that the “Environment setup script” matches with the script you used in step 
-0 to source cctbx.
+### 2. Start GUI
 
-Most of the other entries are related to slurm job configuration, including the “Extra submission arguments” (which corresponds to “extra_options” under “mp” as a string). 
-Milano has 128 cores and WEKA takes 8 cores, use no more than 120 here as number of processors per node. 
-The slurm account in Extra submission arguments” should match the experiment you are processing.
+Run **`cctbx.xfel`** in a terminal (startup can take about a minute). With your PHIL loaded, you should see entries such as **Experiment Tag** (`experiment_tag`), **Output** (`output_folder`), **Facility** (`facility.name`), and **Experiment** (`facility.lcls.experiment`).
 
-If real-time processing during beamtime, you can add “--reservation=lcls:onshift”, but use it wisely: the job priority is higher but you are restricted to 10 nodes.
+Fill any fields not already set from `settings.phil`.
 
-3. Populating runs  
-In GUI, click Watch for new runs (Hold until button turns yellow.) The buttons can be a bit laggy. 
-    At most one person (instance of GUI) can watch at any time, so it is good practice to turn the watch off when not needed. For reprocessing, you only need to turn it on for a few seconds to load all the run information once.
+Example output path shown in the GUI:
 
-You should see runs populated under the “Run” page. 
-4. Tagging runs 
-To add a tag, click “Manage Tags” at the bottom.  
-To associate an added tag for multiple runs, click “Change Tags on Multiple Runs” at the bottom. 
-For real-time processing, it is helpful to automatically tag an incoming run if you know the sample condition won’t change for a while. In this case, click “Manage Persistant Tags” at the bottom. 
-    if GUI crashes during real-time processing, when you relaunch the GUI, you need to configure this persistent tagging again. Otherwise before you know there will be many untagged runs coming in.
+`/sdf/data/lcls/ds/mfx/mfx100904224/results/kmdalton/results`
+
+**Experiment tag and output folder**
+
+Conventionally the experiment tag and process folder (relative to the experiment folder) should match, but this is not always enforced. For example the tag may be **common** while the processing folder (relative path) is **pam** or **kmdalton** (as in the screenshots).
+
+Unless you are the official processing person (in which case the output folder is usually **common**), create a folder for yourself (e.g. **pam**). The overall experiment folder is set by the facility layout; the GUI expects your processing folder as an **absolute path**.
+
+**DB credentials**
+
+Match the **db** section in `settings.phil`. Name and user are usually the experiment. Password is often **lcls**.
+
+If bottom buttons in the DB window disappear (e.g. via OnDemand), exit with **Return** or **Escape**.
+
+**Options**
+
+Leave them unselected unless you know you need them.
+
+**Advanced settings**
+
+Correspond to the **mp** section in `settings.phil`. The **Environment setup script** must match how you sourced cctbx in step 0.
+
+Other fields are mostly Slurm-related, including **Extra submission arguments** (`extra_options` under **mp** as a string). Milano has 128 cores and WEKA uses 8—use at most ~120 processors per node. The Slurm account in extra arguments should match the experiment.
+
+For real-time beamtime work you may add `--reservation=lcls:onshift` (higher priority, limited to 10 nodes—use sparingly).
+
+### 3. Populating runs
+
+In the GUI, click **Watch for new runs** (hold until the button turns yellow). Buttons can lag.
+
+Only one GUI instance should watch at a time—turn watch off when not needed. For reprocessing, a short watch is enough to load run metadata.
+
+Runs should appear under the **Run** page.
+
+### 4. Tagging runs
+
+- **Manage Tags** — add tags.
+- **Change Tags on Multiple Runs** — apply tags to many runs.
+- **Manage Persistent Tags** — auto-tag incoming runs when the sample is stable (change when the sample changes).
+
+If the GUI crashes during real-time processing, reconfigure persistent tagging after relaunch, or untagged runs can pile up.
 
 <!-- handbook-pdf-figures-begin -->
 
@@ -89,4 +96,3 @@ For real-time processing, it is helpful to automatically tag an incoming run if 
 ![PDF p.13 fig.7](images/basic-initial-gui_p13_07.jpg)
 
 <!-- handbook-pdf-figures-end -->
-

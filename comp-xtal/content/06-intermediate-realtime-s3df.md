@@ -3,56 +3,73 @@ id: intermediate-realtime-s3df
 title: Intermediate: Prepare for real-time usage during beamtime (S3DF)
 ---
 
-Intermediate: Prepare for real-time usage during beamtime (S3DF) 
-Before the beamtime 
-General 
-- Check that the experiment folder has been set up on S3DF and visible on eLog 
-- Collect Dark runs (test takepeds/makepeds) 
-- Collect calibrant data and run BayFAI (during commissioning) 
-Note on BayFAI / geometry – 2026/02 
-See LUTE documention on how to set up and run BayFAI to estimate geometry: 
-https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/ 
-As of 2026/02, this involves following the instructions linked above in the experiment folder. After the set up, you should see the BayFAI workflow auto-populated on elog --> 
-Workflow --> Definitions, and you can adjust it appropriately. For example, you want to change the Trigger to MANUAL rather than the end of each run, and maybe adjust slurm arguments like --ntasks as needed. 
-Database 
-Make sure the users have requested to set up MariaDB on their form to use cctbx.xfel GUI. 
-If this step is missing, you need to email pcds-datamgt-I to set it up. 
-If you try to launch the GUI and see the following error, then DB is not set up properly yet.
+### Before the beamtime
 
-You can also verify this with mysql command: 
-mysql -h 172.24.5.182 -u <experiment> <experiment> -p 
-See the Debugging chapter regarding Database for more mysql commands and info. 
-GUI readiness 
-Some test runs (energy calibration) should be done before the beamtime to test GUI basic functionality. 
-- Can you successfully launch the GUI? Check that remote access works, and sourcing the cctbx environment works. 
-- Can the GUI access MariaDB and you see the runs when clicking “Watch for new runs”? 
-- Can you do some fake jobs just to see if they can even be submitted/run? Like averaging a run and visualize the averaged image? 
-Analysis info 
-- Unit cell and space group, and a reference PDB file from users 
-- A template of phil parameters (at least for the Indexing task/trial definition), might be from users or from a recent beamtime 
-- Optionally a reference geometry .expt file, potentially from a recent beamtime, if not using BayFAI 
-- Optionally a reference mask file, potentially from a recent beamtime 
-During the beamtime 
-The main question to answer during beamtime is have enough data been collected to move on. Ideally, you want to proceed all the way to merged results and look at the stats there. In practice, many difficulties can come up, and a quick ballpark can come from the number of indexed images. 
-Make initial files for indexing 
-If you don’t have a geometry file yet, start with averaging a run and create one.  
-If you don’t have a mask yet, start with an averaged run and make one. 
-It is unlikely that your initial files and phil parameters are good enough. Typically then you need to perform energy calibration, refine the geometry, update the mask, and maybe even explore the phil parameters for spot finding etc. This means that indexing (different trials) and ensemble refinement tasks could be processed many times in slight variations, just like how you would have run the GUI for offline reprocessing.
+**General**
 
-Hit/indexing progress 
-You want to monitor “Run Stats” and “Unit Cell” tabs to look the rate and the number of successfully indexed images. Some users might have a rough estimate of how many indexed crystals they need. 
-You might find the following tricks helpful to speed up the processing: 
-- Set up persistent tag to automatically tag incoming runs (but remember to change it when sample changes). 
-- Set integrate=False when defining the Trial to perform just indexing without integration. Remember to get rid of this or perform ensemble refinement to eventually do scaling/merging. 
-Merging progress 
-If things are going well and we are beyond indexing and integration, next we can look at scaling and merging. You want to look at the “Merging stats” tab: 
-The “Active only” refers to the dataset, and you can untick it or not. Leave the Dataset version as “All” and you should see how the statistics evolve over the versions (the version number increases as more images come in).  
-   Do NOT select a particular version of the dataset. The plotting will fail (the sentinel 
-“Merging Stats” on the bottom right turns red) and you might need to switch to other tabs and then come back to refresh the GUI out of a failed status, or relaunch the GUI. 
-    Note that it can take a while to plot the image, and the main way to tell if the plotting is hanging/stuck or not is to look at the sentinel. If after a few seconds of no update and the sentinel hasn’t changed to yellow (working) (or it has changed to red), it might be stuck.
+- Check that the experiment folder has been set up on S3DF and is visible on eLog.
+- Collect dark runs (test takepeds/makepeds).
+- Collect calibrant data and run BayFAI (during commissioning).
 
-You want to see the metrics increase monotonically and plateau as you collect sufficient data. Make sure to not lump together different samples under a dataset as that could mess up the stats trajectories.  
-The purpose of this tab is to gauge if more data need to be collected. To see a more comprehensive and details set of merging statistics, you should go to the ...main.log file in the merging output folder.
+**Note on BayFAI / geometry (2026/02)**
+
+See the LUTE documentation for setting up and running BayFAI to estimate geometry: <https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/>
+
+As of 2026/02, this means following the linked instructions in the experiment folder. After setup, the BayFAI workflow should auto-populate on eLog → **Workflow** → **Definitions**; adjust as needed (e.g. set **Trigger** to **MANUAL** rather than end of run, tune Slurm arguments such as `--ntasks`).
+
+**Database**
+
+- Users must request MariaDB on their form to use the cctbx.xfel GUI. If that is missing, email **pcds-datamgt-I** to set it up.
+- If the GUI shows a database error on launch, the DB is not ready yet.
+
+Verify with:
+
+```bash
+mysql -h 172.24.5.182 -u <experiment> <experiment> -p
+```
+
+See **Debugging tips** for more `mysql` commands.
+
+**GUI readiness**
+
+Run test jobs (e.g. energy calibration) before beamtime:
+
+- Can you launch the GUI (remote access + sourced cctbx)?
+- Can the GUI reach MariaDB and show runs under **Watch for new runs**?
+- Can you submit simple jobs (e.g. average a run and view the image)?
+
+**Analysis info to have ready**
+
+- Unit cell and space group; reference PDB if available.
+- A PHIL template for indexing/trial definition (from users or a recent beamtime).
+- Optional: reference geometry `.expt` (if not using BayFAI).
+- Optional: reference mask from a recent beamtime.
+
+### During the beamtime
+
+The main question is whether enough data exist to move on. Ideally you reach merged results and inspect stats; in practice, indexed image count is a quick gauge.
+
+**Make initial files for indexing**
+
+- No geometry yet → average a run and create one.
+- No mask yet → average a run and build one.
+
+Initial geometry/PHIL are rarely perfect; expect iterations on energy calibration, geometry refinement, mask updates, and spot-finding PHIL—similar to offline reprocessing.
+
+**Hit / indexing progress**
+
+Watch **Run Stats** and **Unit Cell** for indexing rate and counts. Tips:
+
+- Use a **persistent tag** for incoming runs when the sample is stable (change it when the sample changes).
+- Set `integrate=False` on the trial for indexing-only; remove it or run ensemble refinement before scaling/merging.
+
+**Merging progress**
+
+Use the **Merging stats** tab. **Active only** refers to the dataset (optional). Leave **Dataset version** as **All** to see stats evolve across versions.
+
+**Do not** pick a single dataset version—plotting can fail (**Merging Stats** sentinel turns red). Switch tabs and return, or relaunch the GUI to recover. Plotting can be slow; watch the sentinel: if it stays idle and does not go yellow (working) or goes red, it may be stuck.
+
+You want metrics to rise and then plateau when data are sufficient. Do not mix different samples in one dataset or trajectories become misleading. This tab is for “do we need more data?”; for full merging statistics, use the `...main.log` file in the merging output folder.
 
 <!-- handbook-pdf-figures-begin -->
 
@@ -63,4 +80,3 @@ The purpose of this tab is to gauge if more data need to be collected. To see a 
 ![PDF p.30 fig.2](images/intermediate-realtime-s3df_p30_02.png)
 
 <!-- handbook-pdf-figures-end -->
-

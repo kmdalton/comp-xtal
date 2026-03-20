@@ -2,6 +2,9 @@
   const input = document.getElementById("search");
   const meta = document.getElementById("search-meta");
   const sections = Array.from(document.querySelectorAll("article.section"));
+  const parts = Array.from(document.querySelectorAll("section.part"));
+  const tocParts = Array.from(document.querySelectorAll(".toc-part"));
+  const tocLeaves = Array.from(document.querySelectorAll(".toc-leaf"));
   if (!input || !sections.length) return;
 
   function clearHighlights() {
@@ -56,6 +59,42 @@
     return hits;
   }
 
+  function sectionIdFromHash(href) {
+    if (!href || href.charAt(0) !== "#") return "";
+    try {
+      return decodeURIComponent(href.slice(1));
+    } catch (e) {
+      return href.slice(1);
+    }
+  }
+
+  function syncPartVisibility() {
+    parts.forEach(function (part) {
+      const arts = part.querySelectorAll("article.section");
+      const anyVisible = Array.from(arts).some(function (a) {
+        return !a.classList.contains("section--hidden");
+      });
+      part.classList.toggle("part--hidden", !anyVisible);
+    });
+    tocParts.forEach(function (li) {
+      const links = li.querySelectorAll('a[href^="#"]');
+      const anyVisible = Array.from(links).some(function (a) {
+        const id = sectionIdFromHash(a.getAttribute("href"));
+        const el = id ? document.getElementById(id) : null;
+        return el && !el.classList.contains("section--hidden");
+      });
+      li.classList.toggle("toc-part--hidden", !anyVisible);
+    });
+    tocLeaves.forEach(function (li) {
+      const a = li.querySelector('a[href^="#"]');
+      if (!a) return;
+      const id = sectionIdFromHash(a.getAttribute("href"));
+      const el = id ? document.getElementById(id) : null;
+      const visible = el && !el.classList.contains("section--hidden");
+      li.classList.toggle("toc-leaf--hidden", !visible);
+    });
+  }
+
   function runSearch() {
     const q = input.value.trim();
     clearHighlights();
@@ -63,6 +102,15 @@
     if (!q) {
       sections.forEach(function (s) {
         s.classList.remove("section--hidden");
+      });
+      parts.forEach(function (p) {
+        p.classList.remove("part--hidden");
+      });
+      tocParts.forEach(function (li) {
+        li.classList.remove("toc-part--hidden");
+      });
+      tocLeaves.forEach(function (li) {
+        li.classList.remove("toc-leaf--hidden");
       });
       if (meta) meta.textContent = "";
       return;
@@ -84,6 +132,8 @@
         sec.classList.add("section--hidden");
       }
     });
+
+    syncPartVisibility();
 
     if (meta) {
       if (visible === 0) meta.textContent = "No sections match.";

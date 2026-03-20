@@ -11,125 +11,117 @@
   <header class="top">
     <div class="top-inner">
       <h1 class="site-title">CCTBX.XFEL handbook</h1>
-      <p class="site-sub">Source: Markdown files in <code>content/</code>. After editing, run
-        <code>python build_handbook.py build</code> and refresh.</p>
-      <div class="search-wrap">
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <div class="search-wrap toc-search">
         <label class="sr-only" for="search">Search handbook</label>
         <input type="search" id="search" placeholder="Search…" autocomplete="off" />
         <span class="search-meta" id="search-meta" aria-live="polite"></span>
       </div>
-    </div>
-  </header>
-  <div class="layout">
-    <nav class="toc" aria-label="Sections">
-      <p class="toc-title">Sections</p>
-      <ul>
-        <li><a href="#intro">About this handbook</a></li>
-        <li><a href="#references">Helpful references</a></li>
-        <li><a href="#preparation-remote-gui">Preparation: Remote access to GUI</a></li>
-        <li><a href="#basic-initial-gui">Basic: Initial GUI configuration for an experiment</a></li>
-        <li><a href="#basic-programs-tasks">Basic: CCTBX.XFEL Programs and Tasks</a></li>
-        <li><a href="#intermediate-realtime-s3df">Intermediate: Prepare for real-time usage during beamtime (S3DF)</a></li>
-        <li><a href="#intermediate-geometry-refinement">Intermediate: Geometry Refinement</a></li>
-        <li><a href="#intermediate-mask">Intermediate: How to make a mask</a></li>
-        <li><a href="#intermediate-indexing">Intermediate: Indexing result improvement</a></li>
-        <li><a href="#intermediate-photon-energy">Intermediate: Photon energy calibration</a></li>
-        <li><a href="#advanced-event-code">Advanced: Event code handling</a></li>
-        <li><a href="#appendix-programs">Appendix: relevant programs and parameters</a></li>
-        <li><a href="#debugging-tips">Debugging tips</a></li>
+      <ul class="toc-root">
+        <li class="toc-leaf"><a href="#intro">About this handbook</a></li>
+        <li class="toc-leaf"><a href="#references">Helpful references</a></li>
+        <li class="toc-leaf"><a href="#preparation-remote-gui">Preparation: Remote access to GUI</a></li>
+        <li class="toc-part">
+          <span class="toc-part-label">Basic</span>
+          <ul class="toc-nested">
+            <li><a href="#basic-initial-gui">Initial GUI configuration for an experiment</a></li>
+            <li><a href="#basic-programs-tasks">CCTBX.XFEL Programs and Tasks</a></li>
+          </ul>
+        </li>
+        <li class="toc-part">
+          <span class="toc-part-label">Intermediate</span>
+          <ul class="toc-nested">
+            <li><a href="#intermediate-realtime-s3df">Prepare for real-time usage during beamtime (S3DF)</a></li>
+            <li><a href="#intermediate-geometry-refinement">Geometry Refinement</a></li>
+            <li><a href="#intermediate-mask">How to make a mask</a></li>
+            <li><a href="#intermediate-indexing">Indexing result improvement</a></li>
+            <li><a href="#intermediate-photon-energy">Photon energy calibration</a></li>
+          </ul>
+        </li>
+        <li class="toc-leaf"><a href="#advanced-event-code">Advanced: Event code handling</a></li>
+        <li class="toc-leaf"><a href="#appendix-programs">Appendix: relevant programs and parameters</a></li>
+        <li class="toc-leaf"><a href="#debugging-tips">Debugging tips</a></li>
       </ul>
     </nav>
     <main id="main">
-    <article id="intro" class="section" data-title="About this handbook">
-      <h2>About this handbook</h2>
-      <div class="section-body">
+    <section class="part" id="part-about" data-part="about">
+        <article id="intro" class="section" data-title="About this handbook">
+          <h2>About this handbook</h2>
+          <div class="section-body">
 <p>CCTBX.XFEL4MFX - Stable 
 Compiling Github Issues documented by Fred and answers from chats with Aaron, Dan, David, and other cctbx.xfel developers. Adapted Pam’s notes of computational crystallography sessions and the 2025 Users’ Meeting tutorial document shared by 
 Sandra. Louis has been critical for the parts on geometry from BayFAI and psana related code. 
 As all software and the computing environments are updating all the time, please keep the timestamp of the document and the sections in mind. 
 This stable version is meant for viewing only. If you want to make edits/comments, or you need bleeding edge updates, you can check out the “living” version of this handbook that contains the latest fixes and updates information, but expect the content to be messy there. Content highlighted in yellow means partially completed, work in progress.</p>
-<p>Change Log 
-02/03/26: Doris updated chapter “Intermediate: Prepare for real-time usage during beamtime (S3DF)” according to discussion with Fred and Pam. 
-01/29/26: Doris added chapters “Intermediate: Prepare for real-time usage during beamtime (S3DF)” and “Intermediate: Indexing result improvement” (mostly high-level guidance at this point) and a brief “Appendix: relevant programs and parameters”. 
-Updated “Basic: CCTBX.XFEL Programs and Tasks” based on discussion with Pam and 
-Vandana. 
-01/08/26: Doris added chapters “Intermediate: Photon energy calibration” (mostly complete, but no solutions for experiments that would throw errors), “Advanced: Event code handling”, and updated “Debugging tips”. Updated the “Within a Dataset, Defining 
-Tasks” section to based on Selena’s progress. Added chapter “Intermediate: How to make a mask”. 
-12/07/25: Sandra improved the chapters “Remote access to GUI” and “Initial GUI 
-configuration for an experiment”. Doris completed the chapter “Geometry Refinement”. 
-11/24/25: This is the very first release as an internal test.</p>
-      </div>
-    </article>
-
-    <article id="references" class="section" data-title="Helpful references">
-      <h2>Helpful references</h2>
-      <div class="section-body">
-<p>GUI source code: https://github.com/cctbx/cctbx_project/tree/master/xfel/merging 
-Preprint: cctbx.xfel: a suite for processing serial crystallographic data 
-Psana confluence page: 
-https://confluence.slac.stanford.edu/spaces/LCLSIIData/pages/267391733/psana?macr oName=view-file&amp;desktop=true#psana-DetectorNames 
-LUTE documentation: https://slac-lcls.github.io/lute/dev/ 
-BayFAI via LUTE documentation: https://slaclcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/</p>
-      </div>
-    </article>
-
-    <article id="preparation-remote-gui" class="section" data-title="Preparation: Remote access to GUI">
-      <h2>Preparation: Remote access to GUI</h2>
-      <div class="section-body">
-<p>A note on copy paste between local computer to remote session: the short cut keys can be different so if you fail to paste something keep this in mind. For OnDemand, I couldn’t copy/paste between local (mac) and the VNC session at all&hellip; 
-S3DF: OnDemand (least lagging, but no copy/paste) 
-S3DF OnDemand can be accessed through the following link: 
-https://s3df.slac.stanford.edu/ondemand<br />
-From here, navigate to ‘Interactive Apps’ in the top menu and select ‘S3DF’:</p>
-<p>Once started, you might want to adjust the image quality:</p>
-<p>Then select ‘Launch S3DF’. 
-NERSC: ThinLinc 
-Follow the official documentation from NERSC on ThinLinc usage: 
-https://docs.nersc.gov/connect/thinlinc/ 
-It is fairly clear and straightforward (at least on mac). 
-S3DF Alternative 1: FastX v4 (StarNet)</p>
-<p>After saving the connection, double click</p>
-<p>Put in your login credentials, you should see the usual pop up message from S3DF.<br />
-Then, click on the “+” icon on the upper left to start a new session. 
-Choose Terminal rather than Desktop (might be historical reason : at some point this prevented a very ugly display issue of the GUI).</p>
-<p>Once in the terminal, ssh into psana. 
-S3DF Alternative 2: NoMachine 
-Click “Add” to create the connection 
-Once saved, double click the icon for S3DF, and then double click “Create a new virtual desktop”</p>
-<p>Then click the terminal in the desktop, once in the terminal, ssh into psana. 
-Other alternatives could be Xming , but might be very slow.</p>
-<ol start="2">
-<li>
-<p>Login to the remote session via ssh 
-In general, to enable graphics forwarding, you want to put the -Y flag when ssh, e.g.: 
-ssh -Y <username>@s3dflogin.slac.stanford.edu 
-For S3DF, depending on your ssh config, you might need to have additional ssh into psana: 
-ssh –Y psana</p>
-</li>
-<li>
-<p>Source cctbx 
-On S3DF 
-For psana2:<br />
-source /sdf/group/lcls/ds/tools/cctbx/psana2_setup.sh 
-For psana1: 
-source /sdf/group/lcls/ds/tools/cctbx/psana1_setup.sh</p>
-</li>
-</ol>
-<p>Tips:</p>
+<h3>Change log</h3>
 <ul>
-<li>Do not recommend putting source command in .bashrc (too aggressive with 
-Python).  </li>
-<li>A good practice is to keep environment clean, not even base conda environment via .bashrc. 
-The setup.sh is a wrapper script of conda_setpaths.sh that comes with the cctbx build but also defines necessary environment variables. 
-     The environment variables are different on S3DF vs NERSC.<br />
-If setup.sh is not available, make one as follows: 
-S3DF: 
-export SIT_DATA=/sdf/group/lcls/ds/ana/data export SIT_PSDM=/sdf/data/lcls/ds/ 
-export SIT_ROOT=/sdf/data/lcls/ds export SLURM_PRIORITY_RESERVATION=lcls.onshift umask 002 
-source /sdf/group/lcls/ds/tools/cctbx/build/conda_setpaths.sh</li>
+<li><strong>02/03/26:</strong> Doris updated chapter “Intermediate: Prepare for real-time usage during beamtime (S3DF)” according to discussion with Fred and Pam.</li>
+<li><strong>01/29/26:</strong> Doris added chapters “Intermediate: Prepare for real-time usage during beamtime (S3DF)” and “Intermediate: Indexing result improvement” (mostly high-level guidance at this point) and a brief “Appendix: relevant programs and parameters”. Updated “Basic: CCTBX.XFEL Programs and Tasks” based on discussion with Pam and Vandana.</li>
+<li><strong>01/08/26:</strong> Doris added chapters “Intermediate: Photon energy calibration” (mostly complete, but no solutions for experiments that would throw errors), “Advanced: Event code handling”, and updated “Debugging tips”. Updated the “Within a Dataset, Defining Tasks” section to based on Selena’s progress. Added chapter “Intermediate: How to make a mask”.</li>
+<li><strong>12/07/25:</strong> Sandra improved the chapters “Remote access to GUI” and “Initial GUI configuration for an experiment”. Doris completed the chapter “Geometry Refinement”.</li>
+<li><strong>11/24/25:</strong> This is the very first release as an internal test.</li>
 </ul>
-<p>On NERSC 
-source /global/common/software/cctbx/alcc-recipes/cctbx/activate.sh</p>
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-references" data-part="references">
+        <article id="references" class="section" data-title="Helpful references">
+          <h2>Helpful references</h2>
+          <div class="section-body">
+<ul>
+<li><strong>GUI source code:</strong> <a href="https://github.com/cctbx/cctbx_project/tree/master/xfel/merging">https://github.com/cctbx/cctbx_project/tree/master/xfel/merging</a></li>
+<li><strong>Preprint:</strong> cctbx.xfel: a suite for processing serial crystallographic data</li>
+<li><strong>Psana confluence page:</strong> <a href="https://confluence.slac.stanford.edu/spaces/LCLSIIData/pages/267391733/psana?macroName=view-file&amp;desktop=true#psana-DetectorNames">https://confluence.slac.stanford.edu/spaces/LCLSIIData/pages/267391733/psana?macroName=view-file&amp;desktop=true#psana-DetectorNames</a></li>
+<li><strong>LUTE documentation:</strong> <a href="https://slac-lcls.github.io/lute/dev/">https://slac-lcls.github.io/lute/dev/</a></li>
+<li><strong>BayFAI via LUTE documentation:</strong> <a href="https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/">https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/</a></li>
+</ul>
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-preparation" data-part="preparation">
+        <article id="preparation-remote-gui" class="section" data-title="Preparation: Remote access to GUI">
+          <h2>Preparation: Remote access to GUI</h2>
+          <div class="section-body">
+<p>A note on copy/paste between your local computer and the remote session: shortcut keys can differ, so if paste fails, keep that in mind. For OnDemand, copy/paste between local (Mac) and the VNC session did not work at all.</p>
+<h3>S3DF: OnDemand (least lagging, but no copy/paste)</h3>
+<p>S3DF OnDemand: <a href="https://s3df.slac.stanford.edu/ondemand">https://s3df.slac.stanford.edu/ondemand</a></p>
+<p>From there, open <strong>Interactive Apps</strong> in the top menu and choose <strong>S3DF</strong>. After it starts, you may want to lower image quality for responsiveness, then choose <strong>Launch S3DF</strong>.</p>
+<h3>NERSC: ThinLinc</h3>
+<p>Follow NERSC’s ThinLinc documentation: <a href="https://docs.nersc.gov/connect/thinlinc/">https://docs.nersc.gov/connect/thinlinc/</a> — it is fairly clear and straightforward (at least on Mac).</p>
+<h3>S3DF alternative 1: FastX v4 (StarNet)</h3>
+<p>After saving the connection, double-click it. Enter your login credentials; you should see the usual S3DF prompt. Click the <strong>+</strong> icon at the upper left to start a new session. Choose <strong>Terminal</strong> rather than Desktop (this historically avoided a bad display issue with the GUI). In the terminal, <code>ssh</code> into <strong>psana</strong>.</p>
+<h3>S3DF alternative 2: NoMachine</h3>
+<p>Click <strong>Add</strong> to create the connection. After saving, double-click the S3DF icon, then <strong>Create a new virtual desktop</strong>. Open a terminal in the desktop, then <code>ssh</code> into <strong>psana</strong>.</p>
+<p>Other options (e.g. Xming) exist but can be very slow.</p>
+<h3>Login to the remote session via SSH</h3>
+<p>To enable graphics forwarding, use <code>-Y</code> when you <code>ssh</code>, for example:</p>
+<pre class="highlight"><code class="language-bash">ssh -Y &lt;username&gt;@s3dflogin.slac.stanford.edu</code></pre>
+<p>Depending on your SSH config, you may need an extra hop into psana:</p>
+<pre class="highlight"><code class="language-bash">ssh -Y psana</code></pre>
+<h3>Source cctbx</h3>
+<p><strong>On S3DF</strong></p>
+<ul>
+<li><strong>psana2:</strong> <code>source /sdf/group/lcls/ds/tools/cctbx/psana2_setup.sh</code></li>
+<li><strong>psana1:</strong> <code>source /sdf/group/lcls/ds/tools/cctbx/psana1_setup.sh</code></li>
+</ul>
+<p><strong>Tips</strong></p>
+<ul>
+<li>Avoid putting <code>source</code> in <code>.bashrc</code> (too aggressive for Python).</li>
+<li>Prefer a clean environment; even avoiding activating base Conda via <code>.bashrc</code> is good practice.</li>
+<li><code>setup.sh</code> is a wrapper around <code>conda_setpaths.sh</code> from the cctbx build and sets required environment variables (they differ on S3DF vs NERSC).</li>
+</ul>
+<p>If <code>setup.sh</code> is missing, create one. <strong>S3DF example:</strong></p>
+<pre class="highlight"><code class="language-bash">export SIT_DATA=/sdf/group/lcls/ds/ana/data
+export SIT_PSDM=/sdf/data/lcls/ds/
+export SIT_ROOT=/sdf/data/lcls/ds
+export SLURM_PRIORITY_RESERVATION=lcls.onshift
+umask 002
+source /sdf/group/lcls/ds/tools/cctbx/build/conda_setpaths.sh</code></pre>
+<p><strong>On NERSC</strong></p>
+<pre class="highlight"><code class="language-bash">source /global/common/software/cctbx/alcc-recipes/cctbx/activate.sh</code></pre>
 <!-- handbook-pdf-figures-begin -->
 
 <h3>Figures (from PDF)</h3>
@@ -141,67 +133,53 @@ source /global/common/software/cctbx/alcc-recipes/cctbx/activate.sh</p>
 <p><img alt="PDF p.5 fig.6" src="images/preparation-remote-gui_p05_06.png" /></p>
 <p><img alt="PDF p.6 fig.7" src="images/preparation-remote-gui_p06_07.png" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="basic-initial-gui" class="section" data-title="Basic: Initial GUI configuration for an experiment">
-      <h2>Basic: Initial GUI configuration for an experiment</h2>
-      <div class="section-body">
-<ol start="0">
-<li>Source the right cctbx environment 
-See Preparation step 3 (‘Source cctbx’) </li>
-<li>Configure experiment settings 
-The overall configuration of the GUI for an experiment is specified in 
- /sdf/home/<username>/.cctbx.xfel/settings.phil 
-Content in this file will pre-populate some entries in the GUI, and conversely, if you fill in or edit the corresponding textboxes in the GUI, it will edit the settings.phil file.<br />
-    If you have never run cctbx.xfel GUI before, you won’t have this folder or this file.</li>
-</ol>
-<p>If you are switching between experiments, remember that GUI will overwrite 
-~/.cctbx.xfel/settings.phil, so it is good practice to always save a copy of the existing settings.phil before running. 
-Usually you would copy a previous settings.phil file as a template to start with (and make the .cctbx.xfel folder if it doesn’t exist yet): 
-cp /sdf/home/<username>/.cctbx.xfel/settings.phil <experiment_file> 
-e.g. for Summers: /sdf/home/m/mai12345/.cctbx.xfel/mfx100904224.phil 
-The content of this file looks like this:</p>
-<p>It is ok to start the GUI from scratch or from a partially filled settings.phil file. But if you did put down the “output_folder”, Make sure paths already exist, as the GUI will not create new folders and instead just crashes or freezes  with terminal output errors. 
-2. Start GUI 
-Run: cctbx.xfel in terminal. Launching cctbx can take a minute. 
-When you launch the GUI using this PHIL phil, you will see the following window and you can spot some of the corresponding entries such as “Experiment Tag” (experiment_tag), “Output” (output_folder), “Facility”(facility.name), and “Experiment” 
-(facility.lcls.experiment) from the setting.phil file.</p>
-<p>Fill fields if not already populated by the experiment settings.phil file:</p>
-<p>The output field in the text box above is: 
- /sdf/data/lcls/ds/mfx/mfx100904224/results/kmdalton/results</p>
-<p>Experiment Tag and Output Folder 
-Conventionally, the experiment tag and your process folder (relative path to the experiment folder) should match, but it looks like this is not strictly enforced. In this example, we have an experiment tag as “common”, but the processing folder (relative path) can be “pam” (used in the examples below) or “kmdalton” (in the screenshot above). 
-Unless you are the official processing person (in which case the output folder should be 
-“common” (relative path)), you are recommended to make a folder for yourself (e.g. named 
-“pam”). 
-The overall experiment folder is:</p>
-<p>And the GUI expects your processing folder (absolute path) would be the following:</p>
-<p>DB Credentials 
-Modify DB credentials as needed, this corresponds to the “db” section in the settings.phil file. Name and user are usually the experiment.</p>
-<p>Password: lcls</p>
-<p>The buttons at the bottom of the DB window sometimes disappear (for example, when running cctbx.xfel via OnDemand). You can exit out of the window by using the return or escape key on your keyboard.</p>
-<p>Options: 
-Leave them unselected.</p>
-<p>Advanced Settings 
-Modify advanced settings as needed &ndash; this corresponds to the “mp” section of the settings.phil file.<br />
-    Make sure that the “Environment setup script” matches with the script you used in step 
-0 to source cctbx.</p>
-<p>Most of the other entries are related to slurm job configuration, including the “Extra submission arguments” (which corresponds to “extra_options” under “mp” as a string). 
-Milano has 128 cores and WEKA takes 8 cores, use no more than 120 here as number of processors per node. 
-The slurm account in Extra submission arguments” should match the experiment you are processing.</p>
-<p>If real-time processing during beamtime, you can add “&ndash;reservation=lcls:onshift”, but use it wisely: the job priority is higher but you are restricted to 10 nodes.</p>
-<ol start="3">
-<li>Populating runs<br />
-In GUI, click Watch for new runs (Hold until button turns yellow.) The buttons can be a bit laggy. 
-    At most one person (instance of GUI) can watch at any time, so it is good practice to turn the watch off when not needed. For reprocessing, you only need to turn it on for a few seconds to load all the run information once.</li>
-</ol>
-<p>You should see runs populated under the “Run” page. 
-4. Tagging runs 
-To add a tag, click “Manage Tags” at the bottom.<br />
-To associate an added tag for multiple runs, click “Change Tags on Multiple Runs” at the bottom. 
-For real-time processing, it is helpful to automatically tag an incoming run if you know the sample condition won’t change for a while. In this case, click “Manage Persistant Tags” at the bottom. 
-    if GUI crashes during real-time processing, when you relaunch the GUI, you need to configure this persistent tagging again. Otherwise before you know there will be many untagged runs coming in.</p>
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-basic" data-part="basic">
+      <h2 class="part-heading">Basic</h2>
+        <article id="basic-initial-gui" class="section" data-title="Basic: Initial GUI configuration for an experiment">
+          <h2>Initial GUI configuration for an experiment</h2>
+          <div class="section-body">
+<h3>0. Source the right cctbx environment</h3>
+<p>See <strong>Preparation</strong> → <strong>Source cctbx</strong> (SSH section above).</p>
+<h3>1. Configure experiment settings</h3>
+<p>The overall GUI configuration for an experiment lives in:</p>
+<p><code>/sdf/home/&lt;username&gt;/.cctbx.xfel/settings.phil</code></p>
+<p>That file pre-populates GUI fields, and edits in the GUI write back to <code>settings.phil</code>. If you have never run the cctbx.xfel GUI before, you may not have this folder or file yet.</p>
+<p>If you switch experiments, the GUI can overwrite <code>~/.cctbx.xfel/settings.phil</code>, so save a copy before running. You can copy an existing file as a template (create <code>.cctbx.xfel</code> if needed):</p>
+<pre class="highlight"><code class="language-bash">cp /sdf/home/&lt;username&gt;/.cctbx.xfel/settings.phil &lt;experiment_file&gt;</code></pre>
+<p>Example (Summers): <code>/sdf/home/m/mai12345/.cctbx.xfel/mfx100904224.phil</code></p>
+<p>The file content structure matches what the GUI shows (screenshots in <strong>Figures</strong> below).</p>
+<p>You may start from scratch or from a partial <code>settings.phil</code>. If you set <strong>output_folder</strong>, those paths must already exist—the GUI will not create them and may crash or freeze.</p>
+<h3>2. Start GUI</h3>
+<p>Run <strong><code>cctbx.xfel</code></strong> in a terminal (startup can take about a minute). With your PHIL loaded, you should see entries such as <strong>Experiment Tag</strong> (<code>experiment_tag</code>), <strong>Output</strong> (<code>output_folder</code>), <strong>Facility</strong> (<code>facility.name</code>), and <strong>Experiment</strong> (<code>facility.lcls.experiment</code>).</p>
+<p>Fill any fields not already set from <code>settings.phil</code>.</p>
+<p>Example output path shown in the GUI:</p>
+<p><code>/sdf/data/lcls/ds/mfx/mfx100904224/results/kmdalton/results</code></p>
+<p><strong>Experiment tag and output folder</strong></p>
+<p>Conventionally the experiment tag and process folder (relative to the experiment folder) should match, but this is not always enforced. For example the tag may be <strong>common</strong> while the processing folder (relative path) is <strong>pam</strong> or <strong>kmdalton</strong> (as in the screenshots).</p>
+<p>Unless you are the official processing person (in which case the output folder is usually <strong>common</strong>), create a folder for yourself (e.g. <strong>pam</strong>). The overall experiment folder is set by the facility layout; the GUI expects your processing folder as an <strong>absolute path</strong>.</p>
+<p><strong>DB credentials</strong></p>
+<p>Match the <strong>db</strong> section in <code>settings.phil</code>. Name and user are usually the experiment. Password is often <strong>lcls</strong>.</p>
+<p>If bottom buttons in the DB window disappear (e.g. via OnDemand), exit with <strong>Return</strong> or <strong>Escape</strong>.</p>
+<p><strong>Options</strong></p>
+<p>Leave them unselected unless you know you need them.</p>
+<p><strong>Advanced settings</strong></p>
+<p>Correspond to the <strong>mp</strong> section in <code>settings.phil</code>. The <strong>Environment setup script</strong> must match how you sourced cctbx in step 0.</p>
+<p>Other fields are mostly Slurm-related, including <strong>Extra submission arguments</strong> (<code>extra_options</code> under <strong>mp</strong> as a string). Milano has 128 cores and WEKA uses 8—use at most ~120 processors per node. The Slurm account in extra arguments should match the experiment.</p>
+<p>For real-time beamtime work you may add <code>--reservation=lcls:onshift</code> (higher priority, limited to 10 nodes—use sparingly).</p>
+<h3>3. Populating runs</h3>
+<p>In the GUI, click <strong>Watch for new runs</strong> (hold until the button turns yellow). Buttons can lag.</p>
+<p>Only one GUI instance should watch at a time—turn watch off when not needed. For reprocessing, a short watch is enough to load run metadata.</p>
+<p>Runs should appear under the <strong>Run</strong> page.</p>
+<h3>4. Tagging runs</h3>
+<ul>
+<li><strong>Manage Tags</strong> — add tags.</li>
+<li><strong>Change Tags on Multiple Runs</strong> — apply tags to many runs.</li>
+<li><strong>Manage Persistent Tags</strong> — auto-tag incoming runs when the sample is stable (change when the sample changes).</li>
+</ul>
+<p>If the GUI crashes during real-time processing, reconfigure persistent tagging after relaunch, or untagged runs can pile up.</p>
 <!-- handbook-pdf-figures-begin -->
 
 <h3>Figures (from PDF)</h3>
@@ -213,19 +191,17 @@ For real-time processing, it is helpful to automatically tag an incoming run if 
 <p><img alt="PDF p.12 fig.6" src="images/basic-initial-gui_p12_06.png" /></p>
 <p><img alt="PDF p.13 fig.7" src="images/basic-initial-gui_p13_07.jpg" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="basic-programs-tasks" class="section" data-title="Basic: CCTBX.XFEL Programs and Tasks">
-      <h2>Basic: CCTBX.XFEL Programs and Tasks</h2>
-      <div class="section-body">
+          </div>
+        </article>
+        <article id="basic-programs-tasks" class="section" data-title="Basic: CCTBX.XFEL Programs and Tasks">
+          <h2>CCTBX.XFEL Programs and Tasks</h2>
+          <div class="section-body">
 <ol>
 <li>Defining Trial (i.e. Indexing parameters) 
 Go to the “Trials” page of the GUI. 
 This is a somewhat peculiar part of how the GUI is organized. When creating a trial, what you put in the big textbox is actually parameters for the Indexing task. However, all the other tasks are defined under Datasets (see step 2). 
 The format/grammar of the content is the same as the phil file, which stands for Python 
-Hierarchical Input Language (a kind of format used for cctbx and phenix programs): 
-https://cci.lbl.gov/docs/cctbx/doc_low_phil/ 
+Hierarchical Input Language (a kind of format used for cctbx and phenix programs): <a href="https://cci.lbl.gov/docs/cctbx/doc_low_phil/">https://cci.lbl.gov/docs/cctbx/doc_low_phil/</a> 
 Under the hood, the Indexing task is performed by calling the program dials.stills_process. If you don’t know what parameters are accepted by this program to put in the textbox, you can use dials.stills_process -ca 2 -e 10<br />
 Similar command works for other cctbx/dials programs if you want to learn more about the parameters, and the flags specify the expert (verbose) level of the help messages. 
 An example input looks like this: 
@@ -247,9 +223,9 @@ spotfinder {
     } 
   } 
 } 
-indexing { 
-  stills.reflection_subsampling.enable=True</li>
+indexing { </li>
 </ol>
+<pre class="highlight"><code class="language-bash">  stills.reflection_subsampling.enable=True</code></pre>
 <p>known_symmetry { 
     space_group = P 1 21 1 
     unit_cell = 87.970 52.420 95.650 90 95.609 90 
@@ -276,13 +252,13 @@ Photon energy calibration chapter). You can either manually input them, or if yo
 <p>a. For each run group specify the geometry file 
 For the example experiment we look at, the detector calibration was performed using 
 LaB6. The experiment file can be found here:</p>
-<p>/sdf/data/lcls/ds/mfx/mfx100904224/results/common/geom/LaB6_r0005_louisupdate d.expt 
+<p><code>/sdf/data/lcls/ds/mfx/mfx100904224/results/common/geom/LaB6_r0005_louisupdate</code> d.expt 
 This will be input.reference_geometry in the run block settings 
 The .expt file will overwrite the values in the text boxes below for “Beam: X Y DetZ” 
 b. For each run group load pixel mask 
-For the summers experiment a mask can be found here: 
-/sdf/data/lcls/ds/mfx/mfx100904224/results/common/pixels.mask 
-This can be used in the following</p>
+For the summers experiment a mask can be found here: </p>
+<pre class="highlight"><code class="language-bash">/sdf/data/lcls/ds/mfx/mfx100904224/results/common/pixels.mask </code></pre>
+<p>This can be used in the following</p>
 <p>c. Extra XTC format parameters 
 Other than specifying mode for psana2, if there are any issues of the XTC files, this textbox is likely where you need to modify, such as specifying spectrum address, putting a wavelength fallback value when eBeam is missing etc. Content in this textbox will be part of the data.loc file that enables retrieving and viewing the images.</p>
 <p>d. Check this trial as the active trial, and uncheck other if you previously have other processing. 
@@ -329,33 +305,33 @@ The parameters you put under trial definition would end up in params_1.phil.
 See the chapter “Intermediate: Indexing result improvement” for more details on checking the indexing statistics and strategies for improvement.</p>
 <p>Ensemble refinement 
 Refines the geometry, unit cell, etc. and performs integration.<br />
-Example inputs combine_experiments.clustering.use=False reintegration.integration.debug.output = True reintegration.integration.debug.separate_files = False reintegration.integration.mp.nproc = 32 
-reintegration.integration.summation.detector_gain = 0.46</p>
+Example inputs combine_experiments.clustering.use=False reintegration.integration.debug.output = True reintegration.integration.debug.separate_files = False reintegration.integration.mp.nproc = 32 </p>
+<pre class="highlight"><code class="language-bash">reintegration.integration.summation.detector_gain = 0.46</code></pre>
 <p>You may want to change the detector _gain in the last line depending on the type of detector (e.g. 1 used for Epix10ka2M).</p>
 <p>Outputs: 
 Within the task output folder (e.g. r0023/002_rg015/task009),  it has another folder like combine_experiments_t002, where t002 means trial 2. Within this folder, you two folders final_extracted and intermediates. The integration results (.expt and .refl files) as well as log files are in the intermediates. 
 Scaling 
 Scaling and Merging both use cctbx.xfel.merge program, and it’s the dispatcher list that decides what processing is actually performed. An example phil parameters for scaling is attached below. As you can see, “scaling” is there, but it really is just one of many steps needed to perform for the Scaling task. 
-Example inputs dispatch.step_list=input balance model_scaling modify filter errors_premerge scale postrefine statistics_unitcell statistics_beam model_statistics statistics_resolution input.parallel_file_load.method=uniform filter.outlier.min_corr=-1 
-filter.algorithm=unit_cell filter.unit_cell.value.relative_length_tolerance=0.01 
-select.algorithm=significance_filter select.significance_filter.sigma=0.1 </p>
+Example inputs dispatch.step_list=input balance model_scaling modify filter errors_premerge scale postrefine statistics_unitcell statistics_beam model_statistics statistics_resolution input.parallel_file_load.method=uniform filter.outlier.min_corr=-1 </p>
+<pre class="highlight"><code class="language-bash">filter.algorithm=unit_cell filter.unit_cell.value.relative_length_tolerance=0.01 
+select.algorithm=significance_filter select.significance_filter.sigma=0.1 </code></pre>
 <h1>select.significance_filter.min_ct=200</h1>
 <h1>select.significance_filter.max_ct=300</h1>
-<p>scaling.model=/sdf/data/lcls/ds/mfx/mfxl1008021/results/common/models/
-L10080_no_mix_rsich_refine_6.pdb scaling.resolution_scalar=0.96 
-merging.d_min=1.2</p>
-<p>merging.merge_anomalous=True postrefinement.enable=True statistics.n_bins=20 
-output.save_experiments_and_reflections=True 
+<pre class="highlight"><code class="language-bash">scaling.model=/sdf/data/lcls/ds/mfx/mfxl1008021/results/common/models/</code></pre>
+<p>L10080_no_mix_rsich_refine_6.pdb scaling.resolution_scalar=0.96 </p>
+<pre class="highlight"><code class="language-bash">merging.d_min=1.2</code></pre>
+<pre class="highlight"><code class="language-bash">merging.merge_anomalous=True postrefinement.enable=True statistics.n_bins=20 </code></pre>
+<p>output.save_experiments_and_reflections=True 
 Outputs: 
 The task output folder is structured very similar to the indexing output folder (one level up of this task output folder), except that there is not data.loc file here. 
 Merging 
-Example inputs dispatch.step_list=input model_scaling statistics_unitcell statistics_beam model_statistics statistics_resolution group errors_merge statistics_intensity merge statistics_intensity_cxi publish input.parallel_file_load.method=uniform scaling.model=/sdf/data/lcls/ds/mfx/mfxl1008021/results/common/models/
-rsich_high_dmso_150ms_mixing.pdb scaling.resolution_scalar=0.96 
-statistics.n_bins=20 
+Example inputs dispatch.step_list=input model_scaling statistics_unitcell statistics_beam model_statistics statistics_resolution group errors_merge statistics_intensity merge statistics_intensity_cxi publish input.parallel_file_load.method=uniform scaling.model=<code>/sdf/data/lcls/ds/mfx/mfxl1008021/results/common/models/</code>
+rsich_high_dmso_150ms_mixing.pdb scaling.resolution_scalar=0.96 </p>
+<pre class="highlight"><code class="language-bash">statistics.n_bins=20 
 merging.d_min=1.28 
-merging.merge_anomalous=True merging.error.model=mm24 
-To upload merged .mtz files into google drive, refer to this instruction to set up 
-(https://github.com/cctbx/cctbx_project/tree/master/xfel/merging/application/publish), and add two more lines in the inputs: 
+merging.merge_anomalous=True merging.error.model=mm24 </code></pre>
+<p>To upload merged .mtz files into google drive, refer to this instruction to set up 
+(<a href="https://github.com/cctbx/cctbx_project/tree/master/xfel/merging/application/publish">https://github.com/cctbx/cctbx_project/tree/master/xfel/merging/application/publish</a>), and add two more lines in the inputs: 
 publish.drive.credential_file= 
 publish.drive.shared_folder_id=</p>
 <p>Additional notes 
@@ -375,16 +351,20 @@ For quick triage I would mainly focus on the tables shown below in the &hellip;m
 <p>Quick Workflow Checklist 
 1. Connect via FastX 
 2. ssh -Y into S3DF 
-3. Source env: 
- source /sdf/group/lcls/ds/tools/cctbx/setup.sh 
-4. Copy .phil settings 
-5. Start GUI → enter experiment info 
-6. Configure DB credentials 
-7. Set options + advanced settings 
-8. Start processing (watch new runs or manual selection) 
-9. Geometry calibration and energy calibration, in either order</p>
-<ol start="10">
-<li>Make/load Pixel Mask </li>
+3. Source env: </p>
+<pre class="highlight"><code class="language-bash"> source /sdf/group/lcls/ds/tools/cctbx/setup.sh </code></pre>
+<ol start="4">
+<li>Copy .phil settings </li>
+<li>Start GUI → enter experiment info </li>
+<li>Configure DB credentials </li>
+<li>Set options + advanced settings </li>
+<li>Start processing (watch new runs or manual selection) </li>
+<li>
+<p>Geometry calibration and energy calibration, in either order</p>
+</li>
+<li>
+<p>Make/load Pixel Mask </p>
+</li>
 <li>Define trial, run groups if not already </li>
 <li>Define dataset </li>
 <li>Start an indexing task (or more)</li>
@@ -400,73 +380,77 @@ For quick triage I would mainly focus on the tables shown below in the &hellip;m
 <p><img alt="PDF p.25 fig.6" src="images/basic-programs-tasks_p25_06.png" /></p>
 <p><img alt="PDF p.25 fig.7" src="images/basic-programs-tasks_p25_07.png" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="intermediate-realtime-s3df" class="section" data-title="Intermediate: Prepare for real-time usage during beamtime (S3DF)">
-      <h2>Intermediate: Prepare for real-time usage during beamtime (S3DF)</h2>
-      <div class="section-body">
-<p>Intermediate: Prepare for real-time usage during beamtime (S3DF) 
-Before the beamtime 
-General 
-- Check that the experiment folder has been set up on S3DF and visible on eLog 
-- Collect Dark runs (test takepeds/makepeds) 
-- Collect calibrant data and run BayFAI (during commissioning) 
-Note on BayFAI / geometry – 2026/02 
-See LUTE documention on how to set up and run BayFAI to estimate geometry: 
-https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/ 
-As of 2026/02, this involves following the instructions linked above in the experiment folder. After the set up, you should see the BayFAI workflow auto-populated on elog &ndash;&gt; 
-Workflow &ndash;&gt; Definitions, and you can adjust it appropriately. For example, you want to change the Trigger to MANUAL rather than the end of each run, and maybe adjust slurm arguments like &ndash;ntasks as needed. 
-Database 
-Make sure the users have requested to set up MariaDB on their form to use cctbx.xfel GUI. 
-If this step is missing, you need to email pcds-datamgt-I to set it up. 
-If you try to launch the GUI and see the following error, then DB is not set up properly yet.</p>
-<p>You can also verify this with mysql command: 
-mysql -h 172.24.5.182 -u <experiment> <experiment> -p 
-See the Debugging chapter regarding Database for more mysql commands and info. 
-GUI readiness 
-Some test runs (energy calibration) should be done before the beamtime to test GUI basic functionality. 
-- Can you successfully launch the GUI? Check that remote access works, and sourcing the cctbx environment works. 
-- Can the GUI access MariaDB and you see the runs when clicking “Watch for new runs”? 
-- Can you do some fake jobs just to see if they can even be submitted/run? Like averaging a run and visualize the averaged image? 
-Analysis info 
-- Unit cell and space group, and a reference PDB file from users 
-- A template of phil parameters (at least for the Indexing task/trial definition), might be from users or from a recent beamtime 
-- Optionally a reference geometry .expt file, potentially from a recent beamtime, if not using BayFAI 
-- Optionally a reference mask file, potentially from a recent beamtime 
-During the beamtime 
-The main question to answer during beamtime is have enough data been collected to move on. Ideally, you want to proceed all the way to merged results and look at the stats there. In practice, many difficulties can come up, and a quick ballpark can come from the number of indexed images. 
-Make initial files for indexing 
-If you don’t have a geometry file yet, start with averaging a run and create one.<br />
-If you don’t have a mask yet, start with an averaged run and make one. 
-It is unlikely that your initial files and phil parameters are good enough. Typically then you need to perform energy calibration, refine the geometry, update the mask, and maybe even explore the phil parameters for spot finding etc. This means that indexing (different trials) and ensemble refinement tasks could be processed many times in slight variations, just like how you would have run the GUI for offline reprocessing.</p>
-<p>Hit/indexing progress 
-You want to monitor “Run Stats” and “Unit Cell” tabs to look the rate and the number of successfully indexed images. Some users might have a rough estimate of how many indexed crystals they need. 
-You might find the following tricks helpful to speed up the processing: 
-- Set up persistent tag to automatically tag incoming runs (but remember to change it when sample changes). 
-- Set integrate=False when defining the Trial to perform just indexing without integration. Remember to get rid of this or perform ensemble refinement to eventually do scaling/merging. 
-Merging progress 
-If things are going well and we are beyond indexing and integration, next we can look at scaling and merging. You want to look at the “Merging stats” tab: 
-The “Active only” refers to the dataset, and you can untick it or not. Leave the Dataset version as “All” and you should see how the statistics evolve over the versions (the version number increases as more images come in).<br />
-   Do NOT select a particular version of the dataset. The plotting will fail (the sentinel 
-“Merging Stats” on the bottom right turns red) and you might need to switch to other tabs and then come back to refresh the GUI out of a failed status, or relaunch the GUI. 
-    Note that it can take a while to plot the image, and the main way to tell if the plotting is hanging/stuck or not is to look at the sentinel. If after a few seconds of no update and the sentinel hasn’t changed to yellow (working) (or it has changed to red), it might be stuck.</p>
-<p>You want to see the metrics increase monotonically and plateau as you collect sufficient data. Make sure to not lump together different samples under a dataset as that could mess up the stats trajectories.<br />
-The purpose of this tab is to gauge if more data need to be collected. To see a more comprehensive and details set of merging statistics, you should go to the &hellip;main.log file in the merging output folder.</p>
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-intermediate" data-part="intermediate">
+      <h2 class="part-heading">Intermediate</h2>
+        <article id="intermediate-realtime-s3df" class="section" data-title="Intermediate: Prepare for real-time usage during beamtime (S3DF)">
+          <h2>Prepare for real-time usage during beamtime (S3DF)</h2>
+          <div class="section-body">
+<h3>Before the beamtime</h3>
+<p><strong>General</strong></p>
+<ul>
+<li>Check that the experiment folder has been set up on S3DF and is visible on eLog.</li>
+<li>Collect dark runs (test takepeds/makepeds).</li>
+<li>Collect calibrant data and run BayFAI (during commissioning).</li>
+</ul>
+<p><strong>Note on BayFAI / geometry (2026/02)</strong></p>
+<p>See the LUTE documentation for setting up and running BayFAI to estimate geometry: <a href="https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/">https://slac-lcls.github.io/lute/dev/usage/tasks/bayfai/bayfai/</a></p>
+<p>As of 2026/02, this means following the linked instructions in the experiment folder. After setup, the BayFAI workflow should auto-populate on eLog → <strong>Workflow</strong> → <strong>Definitions</strong>; adjust as needed (e.g. set <strong>Trigger</strong> to <strong>MANUAL</strong> rather than end of run, tune Slurm arguments such as <code>--ntasks</code>).</p>
+<p><strong>Database</strong></p>
+<ul>
+<li>Users must request MariaDB on their form to use the cctbx.xfel GUI. If that is missing, email <strong>pcds-datamgt-I</strong> to set it up.</li>
+<li>If the GUI shows a database error on launch, the DB is not ready yet.</li>
+</ul>
+<p>Verify with:</p>
+<pre class="highlight"><code class="language-bash">mysql -h 172.24.5.182 -u &lt;experiment&gt; &lt;experiment&gt; -p</code></pre>
+<p>See <strong>Debugging tips</strong> for more <code>mysql</code> commands.</p>
+<p><strong>GUI readiness</strong></p>
+<p>Run test jobs (e.g. energy calibration) before beamtime:</p>
+<ul>
+<li>Can you launch the GUI (remote access + sourced cctbx)?</li>
+<li>Can the GUI reach MariaDB and show runs under <strong>Watch for new runs</strong>?</li>
+<li>Can you submit simple jobs (e.g. average a run and view the image)?</li>
+</ul>
+<p><strong>Analysis info to have ready</strong></p>
+<ul>
+<li>Unit cell and space group; reference PDB if available.</li>
+<li>A PHIL template for indexing/trial definition (from users or a recent beamtime).</li>
+<li>Optional: reference geometry <code>.expt</code> (if not using BayFAI).</li>
+<li>Optional: reference mask from a recent beamtime.</li>
+</ul>
+<h3>During the beamtime</h3>
+<p>The main question is whether enough data exist to move on. Ideally you reach merged results and inspect stats; in practice, indexed image count is a quick gauge.</p>
+<p><strong>Make initial files for indexing</strong></p>
+<ul>
+<li>No geometry yet → average a run and create one.</li>
+<li>No mask yet → average a run and build one.</li>
+</ul>
+<p>Initial geometry/PHIL are rarely perfect; expect iterations on energy calibration, geometry refinement, mask updates, and spot-finding PHIL—similar to offline reprocessing.</p>
+<p><strong>Hit / indexing progress</strong></p>
+<p>Watch <strong>Run Stats</strong> and <strong>Unit Cell</strong> for indexing rate and counts. Tips:</p>
+<ul>
+<li>Use a <strong>persistent tag</strong> for incoming runs when the sample is stable (change it when the sample changes).</li>
+<li>Set <code>integrate=False</code> on the trial for indexing-only; remove it or run ensemble refinement before scaling/merging.</li>
+</ul>
+<p><strong>Merging progress</strong></p>
+<p>Use the <strong>Merging stats</strong> tab. <strong>Active only</strong> refers to the dataset (optional). Leave <strong>Dataset version</strong> as <strong>All</strong> to see stats evolve across versions.</p>
+<p><strong>Do not</strong> pick a single dataset version—plotting can fail (<strong>Merging Stats</strong> sentinel turns red). Switch tabs and return, or relaunch the GUI to recover. Plotting can be slow; watch the sentinel: if it stays idle and does not go yellow (working) or goes red, it may be stuck.</p>
+<p>You want metrics to rise and then plateau when data are sufficient. Do not mix different samples in one dataset or trajectories become misleading. This tab is for “do we need more data?”; for full merging statistics, use the <code>...main.log</code> file in the merging output folder.</p>
 <!-- handbook-pdf-figures-begin -->
 
 <h3>Figures (from PDF)</h3>
 <p><img alt="PDF p.27 fig.1" src="images/intermediate-realtime-s3df_p27_01.png" /></p>
 <p><img alt="PDF p.30 fig.2" src="images/intermediate-realtime-s3df_p30_02.png" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="intermediate-geometry-refinement" class="section" data-title="Intermediate: Geometry Refinement">
-      <h2>Intermediate: Geometry Refinement</h2>
-      <div class="section-body">
+          </div>
+        </article>
+        <article id="intermediate-geometry-refinement" class="section" data-title="Intermediate: Geometry Refinement">
+          <h2>Geometry Refinement</h2>
+          <div class="section-body">
 <p>cctbx/dials understands the geometry through psana. If BayFAI was used to estimate detector distance, it will push the result to a database such that psana2 Datasource can retrieve information from it, and this is how cctbx will understand the initial geometry. For psana1, this depends on the file written by BayFAI to the calib folder of the experiment: 
-/sdf/data/lcls/ds/mfx/{experimentname}/calib. This file is still written for psana2 BayFAI 
+<code>/sdf/data/lcls/ds/mfx/{experimentname}/calib.</code> This file is still written for psana2 BayFAI 
 but is just for logging purpose as the database is the way to communicate with cctbx now. 
 Without BayFAI, psana use the default metrology data. 
 Obtaining an initial geometry .expt file 
@@ -476,14 +460,14 @@ If cctbx can retrieve images and geometry from psana properly, you would first c
 <p>Under the hood, averaging a run uses geometry from psana, which could come from 
 BayFAI or default metrology. 
 The status of the average job is not checked in GUI under jobs, but actually in the terminal like your regular slurm job submission.<br />
-Once averaging is done, go to the output folder, should be output path like:<br />
-/sdf/data/lcls/ds/mfx/{experiment_name}/results/{experiment_tag}/averages/000 
-If you see more folders like 000, 001, &hellip; these are different versions of averaging done for this run. Within a version folder, you should have data.loc, submit.sh, submit_submit.sh 
+Once averaging is done, go to the output folder, should be output path like:  </p>
+<pre class="highlight"><code class="language-bash">/sdf/data/lcls/ds/mfx/{experiment_name}/results/{experiment_tag}/averages/000 </code></pre>
+<p>If you see more folders like 000, 001, &hellip; these are different versions of averaging done for this run. Within a version folder, you should have data.loc, submit.sh, submit_submit.sh 
 (wrapper submit script), and the out and stdout folders. In the out folder,  you should have max.cbf, std.cbf, and avg.cbf. I find it easier to work with max.cbf for geometry stuff, and std.cbf for masking.</p>
 <p>Generate an initial .expt file 
-In the terminal at the out folder:<br />
-dials.import max.cbf wavelength=1.4443 
-By default it generates a file named imported.expt.</p>
+In the terminal at the out folder:  </p>
+<pre class="highlight"><code class="language-bash">dials.import max.cbf wavelength=1.4443 </code></pre>
+<p>By default it generates a file named imported.expt.</p>
 <p>Visualize in dials.image_viewer the geometry fit 
 Launch image: dials.image_viewer imported.expt 
 If the calibrant is LaB6 rather than Agbe, add the following to the command above: 
@@ -506,7 +490,7 @@ Understand the detector distance number
 </ol>
 <p>Psana convention is to output detector distance as a negative number, and this is the convention followed by BayFAI. dials.import direcly puts this negative number into the .expt file. 
 You can check this distance in the {run_number}-end.data, which is written by BayFAI to the calib/{detectorname}/{somemoredetetctorname}/geometry/ folder. An example file is: 
-/sdf/data/lcls/ds/mfx/mfx100904224/calib/Epix10ka2M::CalibV1/MfxEndsta tion.0:Epix10ka2M.0/geometry/5-end.data 
+<code>/sdf/data/lcls/ds/mfx/mfx100904224/calib/Epix10ka2M</code>::CalibV1/MfxEndsta tion.0:Epix10ka2M.0/geometry/5-end.data 
 Look at the last line that begins with “IP&rdquo;, in this case the distance would be –106.405 
 (converted to mm).</p>
 <p>And in the imported.expt file, the corresponding line about detector distance is:</p>
@@ -524,19 +508,19 @@ Next you need to find the “pixel_size” in the .expt file. Do not look at the
 Once you can successfully index some images,  you can refine the geometry further using the indexed reflections. If needed, you can also refine the geometry again after running the ensemble refinement task (just update the file paths to point to ensemble refinement outputs rather than indexing outputs).</p>
 <p>Use the first run in the run group we care about (e.g. run 21 for run group 58 trial 9 in this case). 
 0. Book-keeping: 
-go to the geom folder &ndash; make one right under the experiment tag folder (e.g. common) if you haven’t, e.g. /sdf/data/lcls/ds/mfx/mfx100904224/results/common/geom. Then, make a refine folder for the run group (e.g. refine_rg058) and go into this folder. 
-1. combine the indexing output files: 
-dials.combine_experiments /path/to/expt /path/to/refl [optional arguments] 
-For example, in the geom folder: 
-dials.combine_experiments ../../results/r0021/009_rg058/out/<em>refined</em>.
-expt ../../results/r0021/009_rg058/out/<em>indexed</em>.refl reference_from_experiment.detector=0 output.n_subset=1000 
+go to the geom folder &ndash; make one right under the experiment tag folder (e.g. common) if you haven’t, e.g. <code>/sdf/data/lcls/ds/mfx/mfx100904224/results/common/geom.</code> Then, make a refine folder for the run group (e.g. refine_rg058) and go into this folder. 
+1. combine the indexing output files: </p>
+<pre class="highlight"><code class="language-bash">dials.combine_experiments /path/to/expt /path/to/refl [optional arguments] </code></pre>
+<p>For example, in the geom folder: </p>
+<pre class="highlight"><code class="language-bash">dials.combine_experiments ../../results/r0021/009_rg058/out/*refined*.</code></pre>
+<p>expt ../../results/r0021/009_rg058/out/<em>indexed</em>.refl reference_from_experiment.detector=0 output.n_subset=1000 
 output.n_subset_method=n_refl 
 2. Filter reflections: 
 cctbx.xfel.filter_experiments_by_rmsd combined.* 
 3. Make a 0-level refinement phil file: 
 or copy a previous one over: 
 cp 
-/sdf/data/lcls/ds/mfx/mfx100903824/results/common/geom/refine_rg011/re fine_level0.phil ./ 
+<code>/sdf/data/lcls/ds/mfx/mfx100903824/results/common/geom/refine_rg011/re</code> fine_level0.phil ./ 
 Example 0-level refinement phil file looks like this: 
 output.experiments=refined_level0.expt output.reflections=refined_level0.refl refinement {</p>
 <p>parameterisation {<br />
@@ -558,11 +542,13 @@ output.experiments=refined_level0.expt output.reflections=refined_level0.refl re
   }<br />
 }</p>
 <p>You might want to explore the outlier algorithms. 
-4. Perform 0-level refinement on the filtered reflections: 
-dials.refine filtered.<em> refine_level0.phil 
-5. Visualize the results and log the terminal output: 
-cctbx.xfel.detector_residuals refined_level0.</em> hierarchy=0 tag=refined 
-Example figures output:</p>
+4. Perform 0-level refinement on the filtered reflections: </p>
+<pre class="highlight"><code class="language-bash">dials.refine filtered.* refine_level0.phil </code></pre>
+<ol start="5">
+<li>Visualize the results and log the terminal output: 
+cctbx.xfel.detector_residuals refined_level0.* hierarchy=0 tag=refined 
+Example figures output:</li>
+</ol>
 <p>Generally, we care more about the bottom row of figures, with the following rule of thumb: 
 - The greener plots the better 
 - The lower left three figures should have spots cover the detector well to the edge 
@@ -617,22 +603,21 @@ tag=refined_h1</p>
 <p><img alt="PDF p.35 fig.6" src="images/intermediate-geometry-refinement_p35_06.png" /></p>
 <p><img alt="PDF p.37 fig.7" src="images/intermediate-geometry-refinement_p37_07.jpg" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="intermediate-mask" class="section" data-title="Intermediate: How to make a mask">
-      <h2>Intermediate: How to make a mask</h2>
-      <div class="section-body">
+          </div>
+        </article>
+        <article id="intermediate-mask" class="section" data-title="Intermediate: How to make a mask">
+          <h2>How to make a mask</h2>
+          <div class="section-body">
 <p>This chapter assumes you have basic familiarity with dials.image_viewer and you know how to average a run. Refer to the previous chapter “Geometry Refinement” if you are not familiar with them. 
 Visualize a mask 
-Given a pre-made mask (pixels.mask), you can visualize it on an image (std.cbf): 
-dials.image_viewer std.cbf load_models=False mask=pixels.mask show_mask=True 
-If you didn’t specify show_mask=True, remember to check the box for “Show mask” in the 
+Given a pre-made mask (pixels.mask), you can visualize it on an image (std.cbf): </p>
+<pre class="highlight"><code class="language-bash">dials.image_viewer std.cbf load_models=False mask=pixels.mask show_mask=True </code></pre>
+<p>If you didn’t specify show_mask=True, remember to check the box for “Show mask” in the 
 “settings” panel that pops up, and the masked pixels will be displayed as red. 
 Make a mask 
-Steps 0-4 describe how to make masks. After averaging a run, go to the output folder in the terminal. In the following example, the folder is 
-/sdf/data/lcls/ds/mfx/mfx101211025/results/doris/results/averages/r001
-6/000/out, a case that requires extensive masking. 
+Steps 0-4 describe how to make masks. After averaging a run, go to the output folder in the terminal. In the following example, the folder is </p>
+<pre class="highlight"><code class="language-bash">/sdf/data/lcls/ds/mfx/mfx101211025/results/doris/results/averages/r001</code></pre>
+<p>6/000/out, a case that requires extensive masking. 
 0. Dead pixels 
 If pixels have 0 standard deviation, they are probably dead pixels. To make a mask of them, use the following script from Fred: 
 (base) [mai12345@sdfiana023 000]$ libtbx.python 
@@ -672,14 +657,16 @@ If the actual beam center is close to the what dials have (shown by the blue cro
 fast=1026 / slow = 30 &hellip;”. 
 3. Whole panel due to shadow 
 The easiest way to mask whole panels is actually using a command line tool. In this case, suppose I want to mask out the bottom panels which are panel 0-3 (judging from the 
-“Readout” number as shown above). In the terminal: 
-dials.generate_mask out/std.cbf untrusted.panel=0 untrusted.panel=1 
-untrusted.panel=2 untrusted.panel=3 output.mask=panel.mask 
+“Readout” number as shown above). In the terminal: </p>
+<pre class="highlight"><code class="language-bash">dials.generate_mask out/std.cbf untrusted.panel=0 untrusted.panel=1 </code></pre>
+<p>untrusted.panel=2 untrusted.panel=3 output.mask=panel.mask 
 Visually verify if this mask looks good:</p>
-<p>If the mask is good, combine this mask with your mask from other step (such as dead pixels) using the same tool: 
-dials.generate_mask r0016_stddev.mask panel.mask output.mask=combined.mask 
-4. Irregular shape 
-The easiest way to make a polygon mask is by clicking where the vertices would be on an image. First open the Mask tool as shown step 1.</p>
+<p>If the mask is good, combine this mask with your mask from other step (such as dead pixels) using the same tool: </p>
+<pre class="highlight"><code class="language-bash">dials.generate_mask r0016_stddev.mask panel.mask output.mask=combined.mask </code></pre>
+<ol start="4">
+<li>Irregular shape 
+The easiest way to make a polygon mask is by clicking where the vertices would be on an image. First open the Mask tool as shown step 1.</li>
+</ol>
 <p>Click the Polygon button, and then if you click anywhere on the image, wherever you click would be the vertices. The order matters. Your trace / the edges of the polygon is shown as the cyan clines:</p>
 <p>Once you roughly close the shape, click the Polygon button again, and that should properly close the polygon shape for you and mask the region:</p>
 <ol start="5">
@@ -698,12 +685,11 @@ Below that button, you can also save the phil parameters of the masking you did 
 <p><img alt="PDF p.45 fig.6" src="images/intermediate-mask_p45_06.jpg" /></p>
 <p><img alt="PDF p.45 fig.7" src="images/intermediate-mask_p45_07.jpg" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="intermediate-indexing" class="section" data-title="Intermediate: Indexing result improvement">
-      <h2>Intermediate: Indexing result improvement</h2>
-      <div class="section-body">
+          </div>
+        </article>
+        <article id="intermediate-indexing" class="section" data-title="Intermediate: Indexing result improvement">
+          <h2>Indexing result improvement</h2>
+          <div class="section-body">
 <p>Diagnostics 
 “Run Stats” tab of the GUI</p>
 <p>You might need to hide Options to see the numbers at the bottom. &ldquo;%xtal&rdquo; (behind the %solv) is the hit rate and &ldquo;%idx&rdquo; is the indexing rate (also plotted as the blue line in the middle panel). The numbers in the parenthesis are number of images with multiple lattices. 
@@ -731,12 +717,11 @@ If the unit cell distribution shape is not a nice Gaussian (but skewed or bimoda
 <p><img alt="PDF p.47 fig.1" src="images/intermediate-indexing_p47_01.jpg" /></p>
 <p><img alt="PDF p.48 fig.2" src="images/intermediate-indexing_p48_02.png" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="intermediate-photon-energy" class="section" data-title="Intermediate: Photon energy calibration">
-      <h2>Intermediate: Photon energy calibration</h2>
-      <div class="section-body">
+          </div>
+        </article>
+        <article id="intermediate-photon-energy" class="section" data-title="Intermediate: Photon energy calibration">
+          <h2>Photon energy calibration</h2>
+          <div class="section-body">
 <p>Correct energy can help indexing. To perform energy calibration, go to the “Energy” page of the GUI. 
 0. Populate the table 
 On the upper left panel, click “Add Row”, then click on each entry under “Run” and “Notch 
@@ -785,12 +770,13 @@ wrote calibrated values to fee_calib.out
 <p><img alt="PDF p.53 fig.4" src="images/intermediate-photon-energy_p53_04.png" /></p>
 <p><img alt="PDF p.54 fig.5" src="images/intermediate-photon-energy_p54_05.png" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
-
-    <article id="advanced-event-code" class="section" data-title="Advanced: Event code handling">
-      <h2>Advanced: Event code handling</h2>
-      <div class="section-body">
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-advanced" data-part="advanced">
+        <article id="advanced-event-code" class="section" data-title="Advanced: Event code handling">
+          <h2>Advanced: Event code handling</h2>
+          <div class="section-body">
 <p>Helpful past experiments to look at include mfxl1015222 – Lane and mfx101262725 – 
 Follmer (and other T-jump experiments in the past). If there are issues that require addressing CCTBX source code, dxtbx/src/dxtbx/format/FormatXTC.py is a key file to look at. 
 Sanity check if event code is set up properly for a run 
@@ -799,9 +785,9 @@ from psana import DataSource from sys import argv</p>
 <p>args = argv[1:] exp = str(args[0]) run = int(args[1]) event_codes = [int(arg) for arg in args[2:]]</p>
 <p>ds = DataSource(exp=exp, run=run, detectors=[&lsquo;timing&rsquo;], max_events=100) myrun = next(ds.runs()) timing = myrun.Detector(&lsquo;timing&rsquo;) for nevt,evt in enumerate(myrun.events()): 
     allcodes = timing.raw.eventcodes(evt) evtcodes = [i for i, val in enumerate(allcodes) if val != 0] print(evtcodes)</p>
-<p>To use this script, make sure you have activated psana2 environment, and then:<br />
-python list_event_codes.py <exp> <run> 
-To understand the output, for example, event code 201-213 (except for 208) was set up for this T-jump experiment, and the first few line of results look like this: 
+<p>To use this script, make sure you have activated psana2 environment, and then:  </p>
+<pre class="highlight"><code class="language-bash">python list_event_codes.py &lt;exp&gt; &lt;run&gt; </code></pre>
+<p>To understand the output, for example, event code 201-213 (except for 208) was set up for this T-jump experiment, and the first few line of results look like this: 
 (ps_20241122) [mai12345@sdfiana002 dorismai]$ python list_event_codes.py mfx101262725 
 121 
 [0, 1, 9, 10, 40, 41, 42, 84, 88, 99, 101, 119, 122, 123, 128, 132, 135, 137, 140, 141, 142, 151, 152, 153, 155, 157, 158, 165, 201] 
@@ -814,27 +800,29 @@ You can see that the last number of each shot (each array) iterates among 201 to
 Specify event code in cctbx 
 You can filter to process data associated with only one event code by providing “Extra XTC 
 format parameters” when defining a run group.<br />
-For example, for the T-jump experiment mfx101262725, event code 203 is reserved for the laser ON status. To process data associated laser on, you would put in the following lines: 
-filter.evr_address=evr0 
-filter.required_present_codes=203 
-These lines are added in addition to the other lines you might need, such as 
+For example, for the T-jump experiment mfx101262725, event code 203 is reserved for the laser ON status. To process data associated laser on, you would put in the following lines: </p>
+<pre class="highlight"><code class="language-bash">filter.evr_address=evr0 
+filter.required_present_codes=203 </code></pre>
+<p>These lines are added in addition to the other lines you might need, such as 
 “mode=psana2_idx” for psana2 data.</p>
-      </div>
-    </article>
-
-    <article id="appendix-programs" class="section" data-title="Appendix: relevant programs and parameters">
-      <h2>Appendix: relevant programs and parameters</h2>
-      <div class="section-body">
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-appendix" data-part="appendix">
+        <article id="appendix-programs" class="section" data-title="Appendix: relevant programs and parameters">
+          <h2>Appendix: relevant programs and parameters</h2>
+          <div class="section-body">
 <p>When tweaking PHIL parameters, it can be helpful to know what knobs are available. The command to do it is [program name] -ca 2 -e 10<br />
 Programs directly related to processing are: 
 dials.stills_process (for Indexing task) dials.combine_experiments (for Ensemble Refinement) cctbx.xfel.merge (for Scaling and Merging tasks) 
 There are many other programs this handbook mentioned for diagnostics or other assisting purposes, such as dials.image_viewer and cctbx.xfel.detector_residuals.</p>
-      </div>
-    </article>
-
-    <article id="debugging-tips" class="section" data-title="Debugging tips">
-      <h2>Debugging tips</h2>
-      <div class="section-body">
+          </div>
+        </article>
+    </section>
+    <section class="part" id="part-debugging" data-part="debugging">
+        <article id="debugging-tips" class="section" data-title="Debugging tips">
+          <h2>Debugging tips</h2>
+          <div class="section-body">
 <p>Review all the red warning texts listed previously in this document that begin with    , as the resulting errors are not necessarily covered here. 
 Failed/red sentinel / unresponsive GUI 
 Sometimes if a particular page of the GUI goes wrong (indicated by the red sentinel), it can become unresponsive. For example, in this case the ebeam calibration has errors and 
@@ -858,12 +846,12 @@ experiment=mfx101262725
 run=532 
 detector_address=jungfrau mode=psana2_idx # only for psana2 
 This is only a minimal set of entries. You might need other things like specifying wavelength fallback and spectrum address etc. depending on the errors you get when launching dials.image_viewer. Refer to “Check FormatXTC and data.loc” section below (and maybe also “Check psana detnames output” section). 
-2. Launch images via the terminal:<br />
-dials.image_viewer data.loc load_models=False 
-This command lets you see the unindexed images of a run.<br />
-To look at indexed images, you would replace data.loc with the paths to the corresponding .expt and .refl files in the command. For example: 
- dials.image_viewer out/idx-050_*.{expt,refl} load_models=False 
-If you encounter errors with dials.image_viewer, refer to the “Dials.image_viewer related issues” section below.</p>
+2. Launch images via the terminal:  </p>
+<pre class="highlight"><code class="language-bash">dials.image_viewer data.loc load_models=False </code></pre>
+<p>This command lets you see the unindexed images of a run.<br />
+To look at indexed images, you would replace data.loc with the paths to the corresponding .expt and .refl files in the command. For example: </p>
+<pre class="highlight"><code class="language-bash"> dials.image_viewer out/idx-050_*.{expt,refl} load_models=False </code></pre>
+<p>If you encounter errors with dials.image_viewer, refer to the “Dials.image_viewer related issues” section below.</p>
 <p>Visualize directly through psana in Jupyter Notebook 
 Not recommended, as it is very inefficient, but if you must do this for some reason, open a jupyter notebook through ondemand interactive session, and use the following code snippets depending on psana version. 
 Psana2 (left)     Psana1 (right)</p>
@@ -880,47 +868,47 @@ GUI run group definition as “Extra xtc format parameters”.
 Spectrum/Detector address – 2025/11: 
 Error: 
 Traceback (most recent call last): File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 213, in run() File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/contextlib.py
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 213, in run() File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/contextlib.py</code>
 &ldquo;, line 81, in inner return func(<em>args, </em>*kwds) ^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 209, in run show_image_viewer(params=params, reflections=reflections, experiments=experiments) File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 174, in show_image_viewer wrapper.display(experiments=experiments, reflections=reflections) File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin der_wrap.py&rdquo;, line 86, in display self.frame.load_image(chooser_wrapper(imagesets[0], 0)) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 209, in run show_image_viewer(params=params, reflections=reflections, experiments=experiments) File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 174, in show_image_viewer wrapper.display(experiments=experiments, reflections=reflections) File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin</code> der_wrap.py&rdquo;, line 86, in display self.frame.load_image(chooser_wrapper(imagesets[0], 0)) 
 File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin der_frame.py&rdquo;, line 657, in load_image super().load_image( File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi ewer/frame.py&rdquo;, line 438, in load_image self.pyslip.tiles.set_image( File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi ewer/tile_generation.py&rdquo;, line 70, in set_image self.raw_image.set_image_data(get_image_data(self.raw_image)) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin</code> der_frame.py&rdquo;, line 657, in load_image super().load_image( File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</code> ewer/frame.py&rdquo;, line 438, in load_image self.pyslip.tiles.set_image( File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</code> ewer/tile_generation.py&rdquo;, line 70, in set_image self.raw_image.set_image_data(get_image_data(self.raw_image)) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin der_frame.py&rdquo;, line 851, in get_image_data image_data = image.get_image_data() 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin</code> der_frame.py&rdquo;, line 851, in get_image_data image_data = image.get_image_data() 
 ^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</p>
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</code></p>
 <p>ewer/frame.py&rdquo;, line 57, in get_image_data return self.image_set.get_corrected_data(self.index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py&rdquo;, line 290, in get_corrected_data return super().get_corrected_data(index) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py</code>&rdquo;, line 290, in get_corrected_data return super().get_corrected_data(index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatMultiIma ge.py&rdquo;, line 47, in read return format_instance.get_raw_data(index) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatMultiIma</code> ge.py&rdquo;, line 47, in read return format_instance.get_raw_data(index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 38, in get_raw_data d = FormatXTCEpix.get_detector(self, index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 65, in get_detector return FormatXTCEpix._detector(self, index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 93, in _detector wavelength = self.get_beam(index).get_wavelength() 
 ^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 566, in get_beam return self._beam(index) ^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 593, in _beam spectrum = self.get_spectrum(index) ^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 637, in get_spectrum spectrum = self._spectrum(index) ^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 657, in _spectrum self._fee = psana.Detector(self.params.spectrum_address) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 566, in get_beam return self._beam(index) ^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 593, in _beam spectrum = self.get_spectrum(index) ^^^^^^^^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 637, in get_spectrum spectrum = self._spectrum(index) ^^^^^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 657, in _spectrum self._fee = psana.Detector(self.params.spectrum_address) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/psana/det_interface.py&rdquo;, line 58, in Detector return _detector_factory(name, env, accept_missing=accept_missing) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/psana/det_interface.py</code>&rdquo;, line 58, in Detector return _detector_factory(name, env, accept_missing=accept_missing) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/Detector/PyDetector.py&rdquo;, line 111, in detector_factory dtype = 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/Detector/PyDetector.py</code>&rdquo;, line 111, in detector_factory dtype = 
 dettype(source_string, env, <em>args, </em>*kwargs) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/Detector/PyDetector.py&rdquo;, line 228, in dettype raise KeyError(&lsquo;Unknown DetInfo device type: %s (source: %s)&rsquo;</p>
-<p>KeyError: &lsquo;Please report this error at https://github.com/dials/dials/issues or to dials-usergroup@jiscmail.ac.uk: Unknown DetInfo device type: feespec (source: feespec)&rsquo; 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/sitepackages/Detector/PyDetector.py</code>&rdquo;, line 228, in dettype raise KeyError(&lsquo;Unknown DetInfo device type: %s (source: %s)&rsquo;</p>
+<p>KeyError: &lsquo;Please report this error at <a href="https://github.com/dials/dials/issues">https://github.com/dials/dials/issues</a> or to <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#105;&#97;&#108;&#115;&#45;&#117;&#115;&#101;&#114;&#103;&#114;&#111;&#117;&#112;&#64;&#106;&#105;&#115;&#99;&#109;&#97;&#105;&#108;&#46;&#97;&#99;&#46;&#117;&#107;">&#100;&#105;&#97;&#108;&#115;&#45;&#117;&#115;&#101;&#114;&#103;&#114;&#111;&#117;&#112;&#64;&#106;&#105;&#115;&#99;&#109;&#97;&#105;&#108;&#46;&#97;&#99;&#46;&#117;&#107;</a>: Unknown DetInfo device type: feespec (source: feespec)&rsquo; 
 Solution: 
 First check psana output validity: 
 For example, in this psana1 experiment: 
@@ -939,34 +927,34 @@ spectrum_address=FEE-SPEC0
 Missing eBeam – 2025/11 
 Error: 
 Traceback (most recent call last): File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 213, in run() File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/contextlib.py
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 213, in run() File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/conda_base_psana1/lib/python3.11/contextlib.py</code>
 &ldquo;, line 81, in inner return func(<em>args, </em>*kwds) ^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 209, in run show_image_viewer(params=params, reflections=reflections, experiments=experiments) File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i mage_viewer.py&rdquo;, line 174, in show_image_viewer wrapper.display(experiments=experiments, reflections=reflections) File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin der_wrap.py&rdquo;, line 86, in display self.frame.load_image(chooser_wrapper(imagesets[0], 0)) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 209, in run show_image_viewer(params=params, reflections=reflections, experiments=experiments) File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/build/../modules/dials/src/dials/command_line/i</code> mage_viewer.py&rdquo;, line 174, in show_image_viewer wrapper.display(experiments=experiments, reflections=reflections) File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin</code> der_wrap.py&rdquo;, line 86, in display self.frame.load_image(chooser_wrapper(imagesets[0], 0)) 
 File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin der_frame.py&rdquo;, line 657, in load_image super().load_image( File</p>
-<p>&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi ewer/frame.py&rdquo;, line 417, in load_image img = rv_image(file_name_or_data) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/spotfin</code> der_frame.py&rdquo;, line 657, in load_image super().load_image( File</p>
+<p>&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</code> ewer/frame.py&rdquo;, line 417, in load_image img = rv_image(file_name_or_data) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/cctbx_project/rstbx/viewer/init.py&rdquo;, line 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/cctbx_project/rstbx/viewer/init.py</code>&rdquo;, line 
 248, in init detector = self._raw.get_detector() ^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi ewer/frame.py&rdquo;, line 43, in get_detector return self.image_set.get_detector() 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/image_viewer/slip_vi</code> ewer/frame.py&rdquo;, line 43, in get_detector return self.image_set.get_detector() 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py&rdquo;, line 242, in get_detector return self._get_item_from_parent_or_format(&ldquo;detector&rdquo;, index) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py</code>&rdquo;, line 242, in get_detector return self._get_item_from_parent_or_format(&ldquo;detector&rdquo;, index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py&rdquo;, line 236, in _get_item_from_parent_or_format item = getter_function(self.indices()[index]) 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py</code>&rdquo;, line 236, in _get_item_from_parent_or_format item = getter_function(self.indices()[index]) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 65, in get_detector return FormatXTCEpix._detector(self, index) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 93, in _detector wavelength = self.get_beam(index).get_wavelength() 
 ^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 566, in get_beam return self._beam(index) ^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 627, in _beam if self._beam_cache.get_wavelength() &lt; 0.1: 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 566, in get_beam return self._beam(index) ^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 627, in _beam if self._beam_cache.get_wavelength() &lt; 0.1: 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br />
-AttributeError: Please report this error at https://github.com/dials/dials/issues or to dialsuser-group@jiscmail.ac.uk: &lsquo;NoneType&rsquo; object has no attribute &lsquo;get_wavelength&rsquo; 
+AttributeError: Please report this error at <a href="https://github.com/dials/dials/issues">https://github.com/dials/dials/issues</a> or to <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#105;&#97;&#108;&#115;&#117;&#115;&#101;&#114;&#45;&#103;&#114;&#111;&#117;&#112;&#64;&#106;&#105;&#115;&#99;&#109;&#97;&#105;&#108;&#46;&#97;&#99;&#46;&#117;&#107;">&#100;&#105;&#97;&#108;&#115;&#117;&#115;&#101;&#114;&#45;&#103;&#114;&#111;&#117;&#112;&#64;&#106;&#105;&#115;&#99;&#109;&#97;&#105;&#108;&#46;&#97;&#99;&#46;&#117;&#107;</a>: &lsquo;NoneType&rsquo; object has no attribute &lsquo;get_wavelength&rsquo; 
 Solution: 
 In the data.loc file, add a line like: 
 wavelength_fallback=1.443 
@@ -974,29 +962,29 @@ wavelength_fallback=1.443
 Error: 
 Sorry: Unable to handle the following arguments: &ldquo;idx-0008_refined.expt&rdquo; failed during 
 ExperimentList processing: Traceback (most recent call last): File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/options.py&rdquo;, line 321,</p>
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dials/src/dials/util/options.py</code>&rdquo;, line 321,</p>
 <p>in try_read_experiments data=ExperimentListFactory.from_json_file( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
 File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 908, in from_json_file return 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 908, in from_json_file return 
 ExperimentListFactory.from_json( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 895, in from_json return 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 895, in from_json return 
 ExperimentListFactory.from_dict( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 885, in from_dict ).decode() ^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 493, in decode imageset = self._imageset_from_imageset_data(imageset_data, models) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 347, in _imageset_from_imageset_data imageset = 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 885, in from_dict ).decode() ^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 493, in decode imageset = self._imageset_from_imageset_data(imageset_data, models) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 347, in _imageset_from_imageset_data imageset = 
 self._make_stills(imageset_data, format_kwargs=format_kwargs) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p y&rdquo;, line 536, in _make_stills return 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/model/experiment_list.p</code> y&rdquo;, line 536, in _make_stills return 
 ImageSetFactory.make_imageset( ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py&rdquo;, line 562, in make_imageset return format_class.get_imageset( ^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatMultiIma ge.py&rdquo;, line 161, in get_imageset format_instance = cls.get_instance(filenames[0], <strong>format_kwargs) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/Format.py&rdquo;, line 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/imageset.py</code>&rdquo;, line 562, in make_imageset return format_class.get_imageset( ^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatMultiIma</code> ge.py&rdquo;, line 161, in get_imageset format_instance = cls.get_instance(filenames[0], <strong>format_kwargs) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File 
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/Format.py</code>&rdquo;, line 
 275, in get_instance Class.current_instance = Class(filename, </strong>kwargs) 
 ^^^^^^^^^^^^^^^^^^^^^^^^^ File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTCEpix.</code>
 py&rdquo;, line 24, in init super().init(image_file, locator_scope=epix_locator_scope, **kwargs) 
 File 
-&ldquo;/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py&rdquo;, line 180, in init assert self.params.mode in [ ^^^^^^^^^^^^^^^^<br />
+&ldquo;<code>/sdf/group/lcls/ds/tools/cctbx/psana1/modules/dxtbx/src/dxtbx/format/FormatXTC.py</code>&rdquo;, line 180, in init assert self.params.mode in [ ^^^^^^^^^^^^^^^^<br />
 AttributeError: &lsquo;NoneType&rsquo; object has no attribute &lsquo;mode&rsquo;</p>
 <p>Solution: 
 This is very non-descriptive error message, which is NOT referring to the mode=idx or mode=psana2_idx. Instead, I think this error shows up when you have a typo in the data.loc file. For example, it shows when I misspelled wavelength_fallback.</p>
@@ -1012,9 +1000,9 @@ With psana1, should return no error.</p>
 <p>Check psana geometry 
 This can be an issue for psana2 for example, when BayFAI was deployed but the result was not successfully pushed to the database. To quickly check if psana understand the geometry correctly (is it default metrology or BayFAI) for GUI to access, you can use the following code snippets provided by Louis to check.</p>
 <p>Database related – 2025/11 
-If you suspect issues related to the database, e.g. mysql error shows up in the terminal as you launch the GUI or attemp to submit jobs through the GUI, you can do some basic checking with mysql command in the terminal: 
-mysql -h 172.24.5.182 -u <experiment> <experiment> -p 
-After typing password, some helpful commands to explore include (semicolon is needed): 
+If you suspect issues related to the database, e.g. mysql error shows up in the terminal as you launch the GUI or attemp to submit jobs through the GUI, you can do some basic checking with mysql command in the terminal: </p>
+<pre class="highlight"><code class="language-bash">mysql -h 172.24.5.182 -u &lt;experiment&gt; &lt;experiment&gt; -p </code></pre>
+<p>After typing password, some helpful commands to explore include (semicolon is needed): 
 mysql&gt; show tables;</p>
 <p>SELECT * FROM common_job LIMIT 10; SELECT * FROM common_task LIMIT 3; Failed jobs, hanging job, and resubmit jobs – 2025/10 
 You might want to resubmit jobs that failed or exited but you think they should have worked 
@@ -1027,7 +1015,7 @@ Failure to index – 2025/11
 This section assumes that the indexing job cannot be submitted or cannot properly finish. 
 If the indexing job apparently finishes without concerning errors, look at the section below 
 “Low indexing rate” &ndash; in particular, is your initial geometry totally off?<br />
-- Are the XTC files there? This is important to check if you are reprocessing old experiments which might have data moved to tape. If there are no .xtc files directly under /sdf/data/lcls/ds/mfx/experiment_number/xtc, you need to contact</p>
+- Are the XTC files there? This is important to check if you are reprocessing old experiments which might have data moved to tape. If there are no .xtc files directly under <code>/sdf/data/lcls/ds/mfx/experiment_number/xtc</code>, you need to contact</p>
 <p>Wilko/pcds-datamgt-l email list. Once the files transfer is done, check if it has the correct permission (read for ps-data group). 
 - Is your data.loc file correct? Is cctbx build in the right psana environment? Refer to 
 “Check psana detnames output” and “Check FormatXTC and data.loc” sections above. A quick test is if you can successfully launch dials.image_viewer to look at some images using the GUI generated data.loc. 
@@ -1040,9 +1028,9 @@ Identifying a few good ones is helpful for testing and improving indexing relate
 - Do you have proper masking of pixels that shouldn’t be identified as spot? Refer to the chapter “How to make a mask”. 
 - If you have okay hit rate but low indexing rate, have you refined the geometry? Refer to the chapter “Geometry Refinement” 
 Check if eBeam is in xtc– 2025/11 
-There is a helpful script from Fred (only for psana2). The command to use it is: 
- python test_ebeam.py &ndash;exp <experiment> &ndash;run <run> 
-The full script is attached below: 
+There is a helpful script from Fred (only for psana2). The command to use it is: </p>
+<pre class="highlight"><code class="language-bash"> python test_ebeam.py --exp &lt;experiment&gt; --run &lt;run&gt; </code></pre>
+<p>The full script is attached below: 
 from psana import DataSource import argparse parser = argparse.ArgumentParser(description=&rdquo;Get a list of ebeam photon energies from psana2. Make sure you are in psana2 
 environment.&rdquo;) parser.add_argument(&lsquo;&ndash;exp&rsquo;, required=True, type=str, help=&rsquo;Experiment name.&rsquo;) parser.add_argument(&lsquo;&ndash;run&rsquo;, required=True, type=int, help=&rsquo;Run number.&rsquo;) parser.add_argument(&lsquo;&ndash;nevents&rsquo;, required=False, type=int, default=1000, help=&rsquo;Number of events to process. Defaults to 1000.&rsquo;)</p>
 <p>args = parser.parse_args()</p>
@@ -1076,8 +1064,9 @@ submitting new tasks for new datasets), a last resort is to make a new experimen
 <p><img alt="PDF p.69 fig.5" src="images/debugging-tips_p69_05.png" /></p>
 <p><img alt="PDF p.70 fig.6" src="images/debugging-tips_p70_06.jpg" /></p>
 <!-- handbook-pdf-figures-end -->
-      </div>
-    </article>
+          </div>
+        </article>
+    </section>
     </main>
   </div>
   <script src="search.js"></script>

@@ -7,8 +7,7 @@ title: Basic: CCTBX.XFEL Programs and Tasks
 Go to the “Trials” page of the GUI. 
 This is a somewhat peculiar part of how the GUI is organized. When creating a trial, what you put in the big textbox is actually parameters for the Indexing task. However, all the other tasks are defined under Datasets (see step 2). 
 The format/grammar of the content is the same as the phil file, which stands for Python 
-Hierarchical Input Language (a kind of format used for cctbx and phenix programs): 
-https://cci.lbl.gov/docs/cctbx/doc_low_phil/ 
+Hierarchical Input Language (a kind of format used for cctbx and phenix programs): <https://cci.lbl.gov/docs/cctbx/doc_low_phil/> 
 Under the hood, the Indexing task is performed by calling the program dials.stills_process. If you don’t know what parameters are accepted by this program to put in the textbox, you can use dials.stills_process -ca 2 -e 10  
 Similar command works for other cctbx/dials programs if you want to learn more about the parameters, and the flags specify the expert (verbose) level of the help messages. 
 An example input looks like this: 

@@ -29,6 +29,19 @@ Your **Markdown** body here. Use normal paragraphs, lists, links, and fenced cod
 - **id** — stable fragment for URLs (`#my-section-id`). Prefer kebab-case; keep it stable if others link to it.
 - **title** — shown in the table of contents and as the section heading.
 
+## Formatting conventions (for editors)
+
+Imported-from-PDF chapters are uneven; when you touch a file, prefer:
+
+- **Headings:** Use `###` (and `####` if needed) inside a chapter—avoid duplicating the YAML `title` as the first line of the body.
+- **Paragraphs:** One thought per paragraph; blank line between blocks (no hard line breaks mid-sentence).
+- **Lists:** Use `-` bullets or `1.` numbered lists for steps, checklists, and references—not plain lines starting with `-` without list spacing.
+- **Links:** Use `<https://…>` or `[label](https://…)` so URLs are explicit; fix obvious typos (`macroName`, `slac-lcls`, etc.).
+- **Commands and paths:** Use fenced ` ```bash ` blocks for multi-line shell; inline `` `path` `` for short paths when helpful.
+- **Figures:** Keep the `<!-- handbook-pdf-figures-begin/end -->` block; edit image lines or captions inside it.
+
+The build step also applies light auto-formatting (code detection, some path/URL handling); clean Markdown still gives the best results.
+
 ## Order
 
 `manifest.txt` lists filenames **top to bottom**. To add a section:

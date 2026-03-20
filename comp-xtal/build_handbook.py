@@ -76,6 +76,32 @@ SECTIONS: list[tuple[str, str, str | None]] = [
 ORDERED_SLUGS = [s[0] for s in SECTIONS]
 SLUG_TO_TITLE = {s[0]: s[1] for s in SECTIONS}
 
+# TOC + on-page grouping: (part_slug, part_label, [section ids]) — each id appears exactly once.
+PART_GROUPS: list[tuple[str, str, list[str]]] = [
+    ("about", "About this handbook", ["intro"]),
+    ("references", "Helpful references", ["references"]),
+    ("preparation", "Preparation", ["preparation-remote-gui"]),
+    (
+        "basic",
+        "Basic",
+        ["basic-initial-gui", "basic-programs-tasks"],
+    ),
+    (
+        "intermediate",
+        "Intermediate",
+        [
+            "intermediate-realtime-s3df",
+            "intermediate-geometry-refinement",
+            "intermediate-mask",
+            "intermediate-indexing",
+            "intermediate-photon-energy",
+        ],
+    ),
+    ("advanced", "Advanced", ["advanced-event-code"]),
+    ("appendix", "Appendix", ["appendix-programs"]),
+    ("debugging", "Debugging Tips", ["debugging-tips"]),
+]
+
 IMAGES_DIR = ROOT / "images"
 FIG_BEGIN = "<!-- handbook-pdf-figures-begin -->"
 FIG_END = "<!-- handbook-pdf-figures-end -->"
@@ -327,16 +353,210 @@ def load_manifest_files() -> list[Path]:
     return paths
 
 
-MD_EXTENSIONS = ["extra", "sane_lists", "smarty"]
+MD_EXTENSIONS = [
+    "markdown.extensions.tables",
+    "markdown.extensions.sane_lists",
+    "markdown.extensions.smarty",
+    "pymdownx.superfences",
+    "pymdownx.magiclink",
+]
+
+MD_EXTENSION_CONFIGS: dict = {
+    "pymdownx.superfences": {},
+}
+
+
+def _line_looks_like_code(line: str) -> bool:
+    s = line.strip()
+    if not s or s.startswith("```"):
+        return False
+    if re.match(r"^https?://", s, re.I):
+        return False
+    # Short label lines like "For psana2:" or "On S3DF"
+    if s.endswith(":") and len(s) < 60 and "\t" not in s:
+        if "/" not in s and "=" not in s and not re.match(r"^[a-z0-9_.-]+\.[a-z]{2,}\s", s, re.I):
+            if not re.match(r"^[.#]?\s*\w+\s+.+[=./-]", s):
+                return False
+    if s.startswith(
+        (
+            "source ",
+            "export ",
+            "ssh ",
+            "mysql ",
+            "conda ",
+            "cp ",
+            "cd ",
+            "rm ",
+            "chmod ",
+            "umask ",
+            "mkdir ",
+            "pip ",
+            "python",
+        )
+    ):
+        return True
+    if s.startswith(("./", "../")):
+        return True
+    m_dials = re.match(r"^dials\.\w+\s+(\S)", s)
+    if m_dials and m_dials.group(1) != "(":
+        return True
+    if re.match(r"^cctbx\.xfel\s", s):
+        return True
+    if re.match(r"^/[A-Za-z0-9_.~{}<>/-]+$", s) and s.count("/") >= 2:
+        return True
+    if re.match(r"^[\w.-]+\.(sh|phil|py|expt|txt|yml|yaml)\b", s, re.I):
+        return True
+    # Lowercase CLI only (avoid "CCTBX.XFEL4MFX - Stable" matching as flags)
+    if re.match(r"^[a-z][a-z0-9_.-]*\s+-", s):
+        return True
+    if re.search(r"^\s*[\w.]+\s*=\s*\S", s) and (
+        "reintegration" in s
+        or "integration." in s
+        or "merging." in s
+        or "filter." in s
+        or "scaling." in s
+        or "stills." in s
+        or "postrefinement" in s
+        or "statistics." in s
+    ):
+        return True
+    return False
+
+
+def _wrap_inline_paths_in_segment(chunk: str) -> str:
+    path_re = re.compile(
+        r"(?<![`./\w)])(?:"
+        r"/\.[\w./<>{}-]+"
+        r"|~/[\w./<>{}-]+"
+        r"|(?:/sdf/|/global/|/tmp/|/usr/)(?:[\w.-]+/)+[\w./<>{}-]+"
+        r")"
+    )
+    parts = re.split(r"(`[^`\n]*`)", chunk)
+    out: list[str] = []
+    for i, p in enumerate(parts):
+        if i % 2 == 1:
+            out.append(p)
+            continue
+        pos = 0
+        buf: list[str] = []
+        for m in path_re.finditer(p):
+            buf.append(p[pos : m.start()])
+            tok = m.group(0)
+            buf.append(f"`{tok}`")
+            pos = m.end()
+        buf.append(p[pos:])
+        out.append("".join(buf))
+    return "".join(out)
+
+
+def _wrap_inline_paths_outside_fences(md: str) -> str:
+    """Add backticks around filesystem paths in prose only (not inside ``` fences)."""
+    lines = md.split("\n")
+    out: list[str] = []
+    in_fence = False
+    for line in lines:
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        if in_fence:
+            out.append(line)
+        else:
+            out.append(_wrap_inline_paths_in_segment(line))
+    return "\n".join(out)
+
+
+def _promote_shell_lines_to_fences(md: str) -> str:
+    """Group consecutive command/path-like lines into ```bash fences (outside existing fences)."""
+    lines = md.split("\n")
+    out: list[str] = []
+    buf: list[str] = []
+    in_fence = False
+
+    def flush_buf() -> None:
+        nonlocal buf
+        if not buf:
+            return
+        if out and out[-1].strip() and not out[-1].strip().startswith("```"):
+            out.append("")
+        out.append("```bash")
+        out.extend(buf)
+        out.append("```")
+        out.append("")
+        buf = []
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            flush_buf()
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        if in_fence:
+            flush_buf()
+            out.append(line)
+            continue
+        if _line_looks_like_code(line):
+            buf.append(line)
+        else:
+            flush_buf()
+            out.append(line)
+    flush_buf()
+    return "\n".join(out).rstrip() + "\n"
+
+
+def preprocess_markdown_body(md: str) -> str:
+    # Promote command lines to fences first so paths inside those lines are not backticked.
+    md = _promote_shell_lines_to_fences(md)
+    md = _wrap_inline_paths_outside_fences(md)
+    return md
 
 
 def md_to_html_fragment(source: str) -> str:
-    return markdown.markdown(source, extensions=MD_EXTENSIONS)
+    source = preprocess_markdown_body(source)
+    return markdown.markdown(
+        source,
+        extensions=MD_EXTENSIONS,
+        extension_configs=MD_EXTENSION_CONFIGS,
+    )
+
+
+def _validate_part_groups() -> None:
+    listed = [sid for _ps, _pt, ids in PART_GROUPS for sid in ids]
+    if len(listed) != len(ORDERED_SLUGS) or set(listed) != set(ORDERED_SLUGS):
+        raise SystemExit("PART_GROUPS must list each section id exactly once.")
+
+
+# When a part has multiple chapters and already shows a part heading, drop this prefix from H2/TOC.
+_MULTI_PART_TITLE_PREFIX: dict[str, str] = {
+    "basic": "Basic: ",
+    "intermediate": "Intermediate: ",
+}
+
+
+def _chapter_display_title(part_slug: str, multi_chapter: bool, full_title: str) -> str:
+    if not multi_chapter:
+        return full_title
+    prefix = _MULTI_PART_TITLE_PREFIX.get(part_slug, "")
+    if prefix and full_title.startswith(prefix):
+        return full_title[len(prefix) :].strip() or full_title
+    return full_title
+
+
+def _article_html(sid: str, display_title: str, data_title: str, body_html: str) -> str:
+    return (
+        f'        <article id="{html.escape(sid, quote=True)}" class="section" '
+        f'data-title="{html.escape(data_title, quote=True)}">\n'
+        f"          <h2>{html.escape(display_title)}</h2>\n"
+        f'          <div class="section-body">\n{body_html}\n          </div>\n'
+        f"        </article>\n"
+    )
 
 
 def cmd_build() -> None:
+    _validate_part_groups()
     paths = load_manifest_files()
-    sections: list[tuple[str, str, str]] = []
+    by_id: dict[str, tuple[str, str]] = {}
     for path in paths:
         raw = path.read_text(encoding="utf-8")
         meta, body = parse_frontmatter(raw)
@@ -350,22 +570,52 @@ def cmd_build() -> None:
         if not sid or not title:
             raise SystemExit(f"{path}: frontmatter must include id and title (or use known slug in filename).")
         body_html = md_to_html_fragment(body.strip())
-        sections.append((sid, title, body_html))
+        by_id[sid] = (title, body_html)
 
-    nav_items = "".join(
-        f'        <li><a href="#{html.escape(sid, quote=True)}">{html.escape(title)}</a></li>\n'
-        for sid, title, _ in sections
-    )
-    articles = []
-    for sid, title, body_html in sections:
-        articles.append(
-            f'    <article id="{html.escape(sid, quote=True)}" class="section" '
-            f'data-title="{html.escape(title, quote=True)}">\n'
-            f"      <h2>{html.escape(title)}</h2>\n"
-            f'      <div class="section-body">\n{body_html}\n      </div>\n'
-            f"    </article>\n"
+    missing = set(ORDERED_SLUGS) - set(by_id)
+    if missing:
+        raise SystemExit(f"Manifest missing sections expected by PART_GROUPS: {sorted(missing)}")
+
+    nav_parts: list[str] = []
+    for part_slug, part_label, sids in PART_GROUPS:
+        multi = len(sids) > 1
+        if not multi:
+            s = sids[0]
+            full = by_id[s][0]
+            nav_parts.append(
+                f'        <li class="toc-leaf"><a href="#{html.escape(s, quote=True)}">'
+                f"{html.escape(full)}</a></li>\n"
+            )
+            continue
+        inner = "".join(
+            f'            <li><a href="#{html.escape(s, quote=True)}">'
+            f"{html.escape(_chapter_display_title(part_slug, True, by_id[s][0]))}</a></li>\n"
+            for s in sids
         )
-    articles_html = "\n".join(articles)
+        nav_parts.append(
+            f'        <li class="toc-part">\n'
+            f'          <span class="toc-part-label">{html.escape(part_label)}</span>\n'
+            f'          <ul class="toc-nested">\n{inner}          </ul>\n'
+            f"        </li>\n"
+        )
+    nav_html = "".join(nav_parts)
+
+    main_parts: list[str] = []
+    for part_slug, part_label, sids in PART_GROUPS:
+        blocks: list[str] = [
+            f'    <section class="part" id="part-{html.escape(part_slug, quote=True)}" '
+            f'data-part="{html.escape(part_slug, quote=True)}">\n'
+        ]
+        if len(sids) > 1:
+            blocks.append(f'      <h2 class="part-heading">{html.escape(part_label)}</h2>\n')
+        for sid in sids:
+            full_title, body_html = by_id[sid]
+            disp = _chapter_display_title(part_slug, len(sids) > 1, full_title)
+            blocks.append(_article_html(sid, disp, full_title, body_html))
+        blocks.append("    </section>\n")
+        main_parts.append("".join(blocks))
+
+    articles_html = "".join(main_parts)
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -380,20 +630,17 @@ def cmd_build() -> None:
   <header class="top">
     <div class="top-inner">
       <h1 class="site-title">CCTBX.XFEL handbook</h1>
-      <p class="site-sub">Source: Markdown files in <code>content/</code>. After editing, run
-        <code>python build_handbook.py build</code> and refresh.</p>
-      <div class="search-wrap">
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <div class="search-wrap toc-search">
         <label class="sr-only" for="search">Search handbook</label>
         <input type="search" id="search" placeholder="Search…" autocomplete="off" />
         <span class="search-meta" id="search-meta" aria-live="polite"></span>
       </div>
-    </div>
-  </header>
-  <div class="layout">
-    <nav class="toc" aria-label="Sections">
-      <p class="toc-title">Sections</p>
-      <ul>
-{nav_items}      </ul>
+      <ul class="toc-root">
+{nav_html}      </ul>
     </nav>
     <main id="main">
 {articles_html}    </main>
@@ -403,7 +650,7 @@ def cmd_build() -> None:
 </html>
 """
     OUT_HTML.write_text(page, encoding="utf-8")
-    print(f"Wrote {OUT_HTML} ({len(sections)} sections)")
+    print(f"Wrote {OUT_HTML} ({len(by_id)} sections in {len(PART_GROUPS)} parts)")
 
 
 def main() -> None:
