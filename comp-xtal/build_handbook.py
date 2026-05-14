@@ -71,6 +71,7 @@ SECTIONS: list[tuple[str, str, str | None]] = [
         "Appendix: relevant programs and parameters \nWhen tweaking PHIL",
     ),
     ("debugging-tips", "Debugging tips", "Debugging tips \nReview all the red warning"),
+    ("running-abismal", "Merging Data with ABISMAL at NERSC", None),
 ]
 
 ORDERED_SLUGS = [s[0] for s in SECTIONS]
@@ -100,6 +101,7 @@ PART_GROUPS: list[tuple[str, str, list[str]]] = [
     ("advanced", "Advanced", ["advanced-event-code"]),
     ("appendix", "Appendix", ["appendix-programs"]),
     ("debugging", "Debugging Tips", ["debugging-tips"]),
+    ("abismal", "Merging with ABISMAL", ["running-abismal"]),
 ]
 
 IMAGES_DIR = ROOT / "images"
